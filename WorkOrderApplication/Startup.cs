@@ -32,7 +32,12 @@ namespace WorkOrderApplication
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc()
+                               .AddRazorPagesOptions(options =>
+                               {
+                                   options.Conventions.AddPageRoute("/identity/account/Login", "");
+                               });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,7 +61,7 @@ namespace WorkOrderApplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Account}/{action=Index}/{id?}");
             });
         }
     }

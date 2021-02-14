@@ -33,3 +33,11 @@ C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\WorkOrderApplication.pdb
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\WorkOrderApplication.genruntimeconfig.cache
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\WorkOrderApplication.csproj.CopyComplete
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_Layout.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_RegistrationLayout.cshtml.g.cs
