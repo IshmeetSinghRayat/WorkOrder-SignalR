@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Areas.Identity.Pages.Account
 {
@@ -20,17 +21,20 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityLoginProjectUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IEmployeeService _employee;
 
         public RegisterModel(
             UserManager<IdentityLoginProjectUser> userManager,
             SignInManager<IdentityLoginProjectUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IEmployeeService employee)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _employee = employee;
         }
 
         [BindProperty]
@@ -55,6 +59,10 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Employee Type")]
+            public string EmployeeType { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -82,7 +90,7 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
+                    var EmployeeCreation = _employee.AddEmployee(user.Id, Convert.ToInt16(Input.EmployeeType));
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }

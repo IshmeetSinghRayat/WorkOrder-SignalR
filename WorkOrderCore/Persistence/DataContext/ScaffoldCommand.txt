@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=DESKTOP-3UG1LAV\SQLEXPRESS;Database=WorkOrderDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Persistence/DataContext -f -Project "WorkOrderCore"

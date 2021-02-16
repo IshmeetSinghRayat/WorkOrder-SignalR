@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WorkOrderCore.Persistence.DataContext.JobCards>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Job Cards</h2>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Business Unit Name
+            </th>
+            <th>
+                Job Description
+            </th>
+            <th>
+                Job Duration
+            </th>
+            <th>
+                Job Status
+            </th>
+            <th>
+                Job Cards Remarks
+            </th>
+            <th>
+                Creation Date
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BuninessUnitId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobDuration)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.JobCardsRemarks)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    <a class="btn btn-success" asp-action="Edit">Edit</a>
+                    <a asp-controller="Activity" asp-action="Index" asp-route-jobCardId="@item.Id" asp-route-businessUnitId="@item.BuninessUnitId" class="btn btn-warning">Activities</a>
+                    <a class="btn btn-danger" asp-action="Delete">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

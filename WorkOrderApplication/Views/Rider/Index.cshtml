@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WorkOrderCore.Persistence.DataContext.JobActivities>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>My Activities</h2>
+
+
+<table class="table table-bordered table-dark">
+    <thead>
+        <tr>
+            <th>
+                Activity Name
+            </th>
+            <th>
+                Min To Max Time
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinDuration) - @Html.DisplayFor(modelItem => item.MaxDuration)
+            </td>
+            <td>
+                <a class="btn btn-success">
+                    View Attachment
+                </a>
+                <a class="btn btn-warning">
+                    Add Attachment
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Areas.Identity.Pages.Account
 {
@@ -18,11 +19,13 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityLoginProjectUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IEmployeeService _employeeService;
 
-        public LoginModel(SignInManager<IdentityLoginProjectUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityLoginProjectUser> signInManager, ILogger<LoginModel> logger, IEmployeeService employeeService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _employeeService = employeeService;
         }
 
         [BindProperty]
@@ -77,8 +80,17 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
+                    short employeeType = await _employeeService.GetEmployeeType(Input.Email);
                     _logger.LogInformation("User logged in.");
-                    return RedirectToAction("index","Home");
+
+                    if (employeeType == 1)
+                    {
+                        return RedirectToAction("index", "Rider");
+                    }
+                    else
+                    {
+                        return RedirectToAction("index", "JobCards");
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {

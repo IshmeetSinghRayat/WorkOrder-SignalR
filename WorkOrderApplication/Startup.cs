@@ -3,12 +3,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkOrderCore.Middlewares;
+using WorkOrderCore.Persistence.DataContext;
+using WorkOrderCore.Services;
 
 namespace WorkOrderApplication
 {
@@ -30,7 +34,11 @@ namespace WorkOrderApplication
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            services.AddDbContext<WorkOrderDBContext>(item => item.UseSqlServer(Configuration.GetConnectionString("UsingIdentityContextConnection")));
+            services.AddTransient<IJobCardService, JobCardService>();
+            services.AddTransient<ILookupService, LookupService>();
+            services.AddTransient<IActivityService, ActivityService>();
+            services.AddTransient<IEmployeeService, EmployeeService>();
 
             services.AddMvc()
                                .AddRazorPagesOptions(options =>
@@ -53,6 +61,7 @@ namespace WorkOrderApplication
                 app.UseHsts();
             }
 
+            app.UseCustomExceptionHandler();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
