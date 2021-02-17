@@ -7,32 +7,29 @@
 <h2>Index</h2>
 
 <p>
-    <a class="btn btn-success" asp-action="Create">Create Activity</a>
+    <a class="btn btn-success" asp-action="Create">Create Transaction</a>
 
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Assigned Employee
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmployeeId)
+                Transaction Start Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.JobCardsTranasctionsStart)
+                Transaction End Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.JobCardsTranasctionsEnd)
+                Transaction Status
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.JobCardsTranasctionsStatus)
+                Transaction Close At
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.JobCardsTranasctionsRemarks)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.JobCardsTranasctionsClosedAt)
+                Priority
             </th>
             <th></th>
         </tr>
@@ -41,29 +38,26 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.EmployeeId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsStart)
+                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsStartDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsEnd)
+                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsEndDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.JobCardsTranasctionsStatus)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsRemarks)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.JobCardsTranasctionsClosedAt)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.PrioritySequence)
+            </td>
+            <td>
                 <a class="btn btn-success" asp-action="Edit">Edit</a>
-                <a class="btn btn-warning" asp-action="Details">Assign Activity</a>
+                @*<a class="btn btn-warning" asp-action="Details">Details</a>*@
                 <a class="btn btn-danger" asp-action="Delete">Delete</a>
             </td>
         </tr>

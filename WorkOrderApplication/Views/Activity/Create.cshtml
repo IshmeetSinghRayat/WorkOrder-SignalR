@@ -1,4 +1,4 @@
-﻿@model WorkOrderCore.Infrastructure.Persistence.DataContext.JobActivities
+﻿@model WorkOrderApplication.Models.CreateActivityViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -6,47 +6,70 @@
 
 <h2>Create Activity</h2>
 
-<h4>Job Activity</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <input type="hidden" asp-for="BuninessUnitId" value="@ViewBag.BusinessUnitId" />
-            <input type="hidden" asp-for="CreatedDate" />
-            <input type="hidden" asp-for="CreatedBy" />
+    <div class="col-lg-12">
+        <a asp-action="Index" class="btn btn-warning" style="float:right">Back to List</a>
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="JobActivityDescriptioin" class="control-label"></label>
-                <input asp-for="JobActivityDescriptioin" class="form-control" />
-                <span asp-validation-for="JobActivityDescriptioin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="JobActivitiesStatus" class="control-label"></label>
-                <input asp-for="JobActivitiesStatus" class="form-control" />
-                <span asp-validation-for="JobActivitiesStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MinDuration" class="control-label"></label>
-                <input asp-for="MinDuration" class="form-control" />
-                <span asp-validation-for="MinDuration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MaxDuration" class="control-label"></label>
-                <input asp-for="MaxDuration" class="form-control" />
-                <span asp-validation-for="MaxDuration" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index" class="btn btn-warning">Back to List</a>
-</div>
+    <form asp-action="Create">
+        <input type="hidden" asp-for="JobActivitiesDetails.Id" />
+        <input type="hidden" asp-for="JobActivitiesDetails.CreatedDate" />
+        <input type="hidden" asp-for="JobActivitiesDetails.CreatedBy" />
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="control-label">Buniness Unit</label>
+                <select asp-for="JobActivitiesDetails.BuninessUnitId" asp-items="@Model.BusinessUnitsDD" class="form-control" required>
+                    <option selected disabled>--Select Business Unit--</option>
+                </select>
+                <span asp-validation-for="JobActivitiesDetails.BuninessUnitId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="control-label">Activity Description</label>
+                <input asp-for="JobActivitiesDetails.JobActivityDescriptioin" class="form-control" />
+                <span asp-validation-for="JobActivitiesDetails.JobActivityDescriptioin" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="control-label">Minimum Duration</label>
+                <select asp-for="JobActivitiesDetails.MinDuration" asp-items="@Model.DurationDD" class="form-control" required>
+                    <option selected disabled>--Select Max Duration--</option>
+                </select>
+                <span asp-validation-for="JobActivitiesDetails.MinDuration" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="control-label">Maximum Duration</label>
+                <select asp-for="JobActivitiesDetails.MaxDuration" asp-items="@Model.DurationDD" class="form-control" required>
+                    <option selected disabled>--Select Max Duration--</option>
+                </select>
+                <span asp-validation-for="JobActivitiesDetails.MaxDuration" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label class="control-label">Activity Status</label>
+                <select asp-for="JobActivitiesDetails.JobActivitiesStatus" asp-items="@Model.StatusDD" class="form-control" required>
+                    <option selected disabled>--Select Status--</option>
+                </select>
+                <span asp-validation-for="JobActivitiesDetails.JobActivitiesStatus" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group" style="float:right">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </form>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

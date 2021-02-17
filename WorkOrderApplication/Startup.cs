@@ -28,6 +28,18 @@ namespace WorkOrderApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(900);
+                //options.Cookie.HttpOnly = true;
+                //options.Cookie.IsEssential = true;
+            });
+
+            services.AddHttpContextAccessor();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -66,6 +78,7 @@ namespace WorkOrderApplication
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

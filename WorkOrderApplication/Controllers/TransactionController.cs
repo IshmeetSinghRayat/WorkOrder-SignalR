@@ -12,18 +12,18 @@ namespace WorkOrderApplication.Controllers
 {
     public class TransactionController : Controller
     {
-        private readonly ITransactionService _assignActivityService;
+        private readonly ITransactionService _transactionService;
         private readonly IEmployeeService _employeeService;
         private readonly IActivityService _activityService;
         private readonly IJobCardService _jobCardService;
 
         public TransactionController(
-            ITransactionService assignActivityService, 
+            ITransactionService transactionService, 
             IEmployeeService employeeService,
             IActivityService activityService,
             IJobCardService jobCardService)
         {
-            _assignActivityService = assignActivityService;
+            _transactionService = transactionService;
             _employeeService = employeeService;
             _activityService = activityService;
             _jobCardService = jobCardService;
@@ -31,7 +31,7 @@ namespace WorkOrderApplication.Controllers
         // GET: AssignActivityController
         public async Task<ActionResult> Index()
         {
-            return View(await _assignActivityService.GetAllAssignedActivities());
+            return View(await _transactionService.GetAllTransactions());
         }
 
         // GET: AssignActivityController/Details/5
@@ -46,15 +46,20 @@ namespace WorkOrderApplication.Controllers
             var ridersList = await _employeeService.GetAllRiders(1);
             var jobCardList = await _jobCardService.GetAllJobCards();
             var activityList = await _activityService.GetAllActivities();
-
             TransactionViewModel model = new TransactionViewModel
             {
-                TransactionDetails = new WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctions(),
-                EmployeesDD = ridersList.Select(c => new SelectListItem { Text = c.Id.ToString(), Value = c.Id.ToString() }).ToList(),
-                JobcardDD = jobCardList.Select(c => new SelectListItem { Text = c.Id.ToString(), Value = c.Id.ToString() }).ToList(),
-                JobActivityDD = activityList.Select(c => new SelectListItem { Text = c.Id.ToString(), Value = c.Id.ToString() }).ToList()
+                EmployeesDD = ridersList.Select(c => new SelectListItem { Text = c.FullName.ToString(), Value = c.EmployeeId.ToString() }).ToList(),
+                JobcardDD = jobCardList.Select(c => new SelectListItem { Text = c.JobDescription.ToString(), Value = c.Id.ToString() }).ToList(),
+                JobActivityDD = activityList.Select(c => new SelectListItem { Text = c.JobActivityDescriptioin.ToString(), Value = c.Id.ToString() }).ToList(),
+                TransactionDetails = new WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctions 
+                { 
+                    JobCardsTranasctionsEndDate = DateTime.Now,
+                    JobCardsTranasctionsStartDate = DateTime.Now,
+                    JobCardsTranasctionsClosedAt = DateTime.Now,
+                    JobCardsTranasctionsStatus = "Open"
+                }
             };
-            return View();
+            return View(model);
         }
 
         // POST: AssignActivityController/Create
@@ -64,6 +69,7 @@ namespace WorkOrderApplication.Controllers
         {
             try
             {
+                var result = _transactionService.AddTransaction(model.TransactionDetails);
                 return RedirectToAction(nameof(Index));
             }
             catch

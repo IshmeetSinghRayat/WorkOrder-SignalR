@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WorkOrderCore.Infrastructure.Persistence.DataContext.JobActivities>
+﻿@model List<WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctions>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,10 +11,10 @@
     <thead>
         <tr>
             <th>
-                Activity Name
+                Star tDate
             </th>
             <th>
-                Min To Max Time
+                End Date
             </th>
             <th></th>
         </tr>
@@ -23,18 +23,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @item.JobCardsTranasctionsStartDate.ToString("dddd, dd MMMM yyyy")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MinDuration) - @Html.DisplayFor(modelItem => item.MaxDuration)
+                @item.JobCardsTranasctionsEndDate.ToString("dddd, dd MMMM yyyy")
             </td>
             <td>
+                <a asp-action="ChangeStatus" class="btn btn-success"><i class="fa fa-wrench"></i></a>
+                <a class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> </a>
+                <a class="btn btn-warning"><i class="fa fa-low-vision"></i></a>
+                @*<a class="btn btn-warning" asp-action="ChangeStatus">
+                    Status
+                </a>
                 <a class="btn btn-success">
                     View Attachment
                 </a>
                 <a class="btn btn-warning">
                     Add Attachment
-                </a>
+                </a>*@
             </td>
         </tr>
 }

@@ -7,6 +7,7 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="~/fontawesome-5.15.2-web/css/all.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -26,10 +27,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="JobCards" asp-action="Index" class="navbar-brand">Work Order Admin</a>
+                <a asp-area="" asp-controller="JobCards" asp-action="Index" class="navbar-brand" style="font-size: 32px;">Work Order <span style="font-size: 13px;">Admin</span></a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" style="float:right">
                     @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>*@
                     <li><a asp-area="" asp-controller="JobCards" asp-action="Index">Job Cards</a></li>
                     <li><a asp-area="" asp-controller="Activity" asp-action="Index">Job Activity</a></li>

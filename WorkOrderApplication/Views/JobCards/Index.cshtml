@@ -25,9 +25,6 @@
                 Job Status
             </th>
             <th>
-                Job Cards Remarks
-            </th>
-            <th>
                 Creation Date
             </th>
             <th></th>
@@ -38,26 +35,23 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.BuninessUnitId)
+                    @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.JobDescription)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.JobDuration)
+                    @Html.DisplayFor(modelItem => item.JobDuration) Days
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.JobStatus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JobCardsRemarks)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreationDate)
                 </td>
                 <td>
                     <a class="btn btn-success" asp-action="Edit">Edit</a>
-                    <a asp-controller="Activity" asp-action="Index" asp-route-jobCardId="@item.Id" asp-route-businessUnitId="@item.BuninessUnitId" class="btn btn-warning">Activities</a>
+                    <a asp-controller="Details" asp-action="Index" class="btn btn-warning">Details</a>
                     <a class="btn btn-danger" asp-action="Delete">Delete</a>
                 </td>
             </tr>

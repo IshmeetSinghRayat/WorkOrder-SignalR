@@ -1,38 +1,53 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkOrderCore.Infrastructure.Persistence.DataContext;
+using WorkOrderCore.Model;
 
 namespace WorkOrderCore.Services
 {
     public interface IEmployeeService
     {
+        Task<UserDetailsViewModel> GetEmployeeDetails(string EmailId);
         Task<short> GetEmployeeType(string EmailId);
-        Task<List<Employee>> GetAllRiders(short EmployeeType);
+        Task<List<UserDetailsViewModel>> GetAllRiders(short EmployeeType);
         Task<Employee> AddEmployee(string UserId, short EmployeeType);
         Task<bool> UpdateActivity(JobActivities model);
 
     }
-    public class EmployeeService : IEmployeeService
+    public class EmployeeService : BaseService,IEmployeeService
     {
-        private readonly WorkOrderDBContext _context;
-
-        public EmployeeService(WorkOrderDBContext Context)
+        public EmployeeService(WorkOrderDBContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {
-            _context = Context;
         }
-        public async Task<List<Employee>> GetAllRiders(short EmployeeType)
+
+        public async Task<List<UserDetailsViewModel>> GetAllRiders(short EmployeeType)
         {
-            return await _context.Employee.Where(v => v.EmployeeType == EmployeeType).ToListAsync();
+            var employeeNames = await (from a in _context.Employee
+                                       join b in _context.AspNetUsers on a.UserId equals b.Id
+                                       where a.EmployeeType == EmployeeType
+                                       select new UserDetailsViewModel
+                                       {
+                                           EmployeeId = a.Id,
+                                           UserId = b.Id,
+                                           FullName = b.Firstname + " " + b.LastName,
+                                           EmployeeType = a.EmployeeType,
+                                           NationalityId = a.NationalityId,
+                                           JoiningDate = a.JoiningDate,
+                                           JobDescription = a.JobDescription,
+                                           PersonStatus = a.PersonStatus
+                                       }).ToListAsync();
+            return employeeNames;
         }
         public Task<short> GetEmployeeType(string EmailId)
         {
             var employeeType = (from a in _context.Employee
-                              join b in _context.AspNetUsers on a.UserId equals b.Id
-                              where b.Email == EmailId
+                                join b in _context.AspNetUsers on a.UserId equals b.Id
+                                where b.Email == EmailId
                                 select a.EmployeeType);
             return employeeType.FirstOrDefaultAsync();
         }
@@ -40,17 +55,18 @@ namespace WorkOrderCore.Services
         {
             try
             {
-                Employee model = new Employee {
-                UserId = UserId,
+                Employee model = new Employee
+                {
+                    UserId = UserId,
                     EmployeeType = EmployeeType,
                     NationalityId = "",
                     JoiningDate = DateTime.Now,
                     JobDescription = "",
                     PersonStatus = 1,
-                    CreatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249",
+                    CreatedBy = UserId,
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
-                    UpdatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249"
+                    UpdatedBy = UserId
                 };
                 _context.Employee.Add(model);
                 _context.SaveChanges();
@@ -69,6 +85,25 @@ namespace WorkOrderCore.Services
             _context.JobActivities.Update(model);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<UserDetailsViewModel> GetEmployeeDetails(string EmailId)
+        {
+            var UserDetailsViewModel = await (from a in _context.Employee
+                                        join b in _context.AspNetUsers on a.UserId equals b.Id
+                                        where b.Email == EmailId
+                                        select new UserDetailsViewModel
+                                        {
+                                            EmployeeId = a.Id,
+                                            UserId = b.Id,
+                                            FullName = b.Firstname + " " + b.LastName,
+                                            EmployeeType = a.EmployeeType,
+                                            NationalityId = a.NationalityId,
+                                            JoiningDate = a.JoiningDate,
+                                            JobDescription = a.JobDescription,
+                                            PersonStatus = a.PersonStatus
+                                        }).FirstOrDefaultAsync();
+            return UserDetailsViewModel;
         }
     }
 }

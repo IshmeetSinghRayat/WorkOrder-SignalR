@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,46 +11,43 @@ namespace WorkOrderCore.Services
 {
     public interface ITransactionService
     {
-        Task<List<JobCardsTranasctions>> GetAllAssignedActivities();
-        Task<List<JobCardsTranasctions>> GetAssignActivity(int jobCardId);
+        Task<List<JobCardsTranasctions>> GetAllTransactions();
+        Task<List<JobCardsTranasctions>> GetEmployeeTransactions();
 
-        Task<JobCardsTranasctions> AssignActivity(JobCardsTranasctions model);
+        Task<JobCardsTranasctions> AddTransaction(JobCardsTranasctions model);
         Task<bool> UpdateAssignment(JobCardsTranasctions model);
 
     }
-    public class TransactionService : ITransactionService
+    public class TransactionService : BaseService, ITransactionService
     {
-        private readonly WorkOrderDBContext _context;
-
-        public TransactionService(WorkOrderDBContext Context)
+        public TransactionService(WorkOrderDBContext context, IHttpContextAccessor httpContextAccessor) 
+            : base(context, httpContextAccessor)
         {
-            _context = Context;
         }
-        public async Task<List<JobCardsTranasctions>> GetAllAssignedActivities()
+
+        public async Task<List<JobCardsTranasctions>> GetAllTransactions()
         {
             var assignedActivities = await _context.JobCardsTranasctions.ToListAsync();
             return assignedActivities.ToList();
         }
-        public async Task<List<JobCardsTranasctions>> GetAssignActivity(int jobCardId)
+        public async Task<List<JobCardsTranasctions>> GetEmployeeTransactions()
         {
-            var activities = await _context.JobCardsTranasctions.ToListAsync();
-            return activities.Where(v=>v.JobCardId == jobCardId).ToList();
+            var transactions = await _context.JobCardsTranasctions.ToListAsync();
+            return transactions.Where(v=>v.EmployeeId == Convert.ToInt64(EmployeeId)).ToList();
         }
 
-        public async Task<JobCardsTranasctions> AssignActivity(JobCardsTranasctions model)
+        public async Task<JobCardsTranasctions> AddTransaction(JobCardsTranasctions model)
         {
             try
             {
-                //model.CreationDate = DateTime.Now;
-                //model.UpdatedDate = DateTime.Now;
-                //model.CreatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249";
+                model.CreatedDate = DateTime.Now;
+                model.UpdatedDate = DateTime.Now;
+                model.CreatedBy = Userid;
                 _context.JobCardsTranasctions.Add(model);
                 _context.SaveChanges();
-
-
                 return model;
             }
-            catch (Exception es)
+            catch (Exception ex)
             {
                 throw;
             }

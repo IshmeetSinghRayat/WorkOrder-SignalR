@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkOrderApplication.Models;
+using WorkOrderCore.Infrastructure.Helpers;
 using WorkOrderCore.Infrastructure.Persistence.DataContext;
 using WorkOrderCore.Services;
 
@@ -12,14 +15,19 @@ namespace WorkOrderApplication.Controllers
     public class ActivityController : Controller
     {
         private readonly IActivityService _activityService;
+        private readonly ILookupService _lookupService;
 
-        public ActivityController(IActivityService activityService)
+        public ActivityController(IActivityService activityService, ILookupService lookupService)
         {
             _activityService = activityService;
+            _lookupService = lookupService;
         }
         // GET: ActivityController
         public async Task<ActionResult> Index()
         {
+            var cc = HttpContext.Session.GetString("UserId");
+            var ccdds = HttpContext.Session.GetString("EmployeeId");
+            ViewBag.businessUnitsList = await _lookupService.GetBusinessUnits();
             var ActivityList = await _activityService.GetAllActivities();
             return View(ActivityList);
         }
@@ -31,19 +39,32 @@ namespace WorkOrderApplication.Controllers
         }
 
         // GET: ActivityController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            var businessUnitsList = await _lookupService.GetBusinessUnits();
+            var StatusList = await _lookupService.GetLookups(DataEnums.MasterLookupAlias.ActivityStatus.ToString());
+            var DurationList = await _lookupService.GetLookups(DataEnums.MasterLookupAlias.Duration.ToString());
+            CreateActivityViewModel model = new CreateActivityViewModel
+            {
+                BusinessUnitsDD = businessUnitsList.Select(v => new SelectListItem { Text = v.Description, Value = v.Id.ToString() }).ToList(),
+                StatusDD = StatusList.Select(v => new SelectListItem { Text = v.Name, Value = v.Alias.ToString() }).ToList(),
+                DurationDD = DurationList.Select(v => new SelectListItem { Text = v.Name, Value = v.Alias }).ToList(),
+                JobActivitiesDetails = new JobActivities
+                {
+                    JobActivitiesStatus = "Open"
+                }
+            };
+            return View(model);
         }
 
         // POST: ActivityController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(JobActivities model)
+        public async Task<ActionResult> Create(CreateActivityViewModel model)
         {
             try
             {
-                var activityDetails = await _activityService.AddActivity(model);
+                var activityDetails = await _activityService.AddActivity(model.JobActivitiesDetails);
                 return RedirectToAction(nameof(Index));
             }
             catch

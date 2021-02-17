@@ -11,9 +11,9 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         }
 
         public int Id { get; set; }
-        public short? BuninessUnitId { get; set; }
+        public int? BuninessUnitId { get; set; }
         public string JobActivityDescriptioin { get; set; }
-        public int? JobActivitiesStatus { get; set; }
+        public string JobActivitiesStatus { get; set; }
         public short? MinDuration { get; set; }
         public short? MaxDuration { get; set; }
         public string CreatedBy { get; set; }
@@ -21,6 +21,7 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
+        public BusinessUnit BuninessUnit { get; set; }
         public ICollection<JobCardsTranasctions> JobCardsTranasctions { get; set; }
     }
 }

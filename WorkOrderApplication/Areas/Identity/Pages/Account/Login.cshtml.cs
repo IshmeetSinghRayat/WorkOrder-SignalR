@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using WorkOrderCore.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace WorkOrderApplication.Areas.Identity.Pages.Account
 {
@@ -80,10 +81,16 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    short employeeType = await _employeeService.GetEmployeeType(Input.Email);
+                    var employeeDetails = await _employeeService.GetEmployeeDetails(Input.Email);
+                    if (employeeDetails == null)
+                    {
+                        return Page();
+                    }
                     _logger.LogInformation("User logged in.");
+                    HttpContext.Session.SetString("UserId", employeeDetails.UserId);
+                    HttpContext.Session.SetString("EmployeeId", employeeDetails.EmployeeId.ToString());
 
-                    if (employeeType == 1)
+                    if (employeeDetails.EmployeeType == 1)
                     {
                         return RedirectToAction("index", "Rider");
                     }

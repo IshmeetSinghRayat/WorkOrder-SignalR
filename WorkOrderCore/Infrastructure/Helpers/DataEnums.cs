@@ -7,9 +7,9 @@ namespace WorkOrderCore.Infrastructure.Helpers
     public class DataEnums {
         public enum MasterLookupAlias
         {
-            JobStatuss = 1,
-            ActivityStatus = 2,
-            BusinessUnit = 3
+            JobStatus,
+            ActivityStatus,
+            Duration
         }
         public enum Roles
         {

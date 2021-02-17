@@ -10,16 +10,18 @@ namespace WorkOrderApplication.Controllers
 {
     public class RiderController : Controller
     {
-        private readonly IActivityService _activityService;
+        private readonly ITransactionService _transactionService;
+        private readonly ILookupService _lookupService;
 
-        public RiderController(IActivityService activityService)
+        public RiderController(ITransactionService transactionService, ILookupService lookupService)
         {
-            _activityService = activityService;
+            _transactionService = transactionService;
+            _lookupService = lookupService;
         }
         // GET: RiderController
         public async Task<ActionResult> Index()
         {
-            return View(await _activityService.GetAllActivities());
+            return View(await _transactionService.GetEmployeeTransactions());
         }
 
         // GET: RiderController/Details/5
@@ -29,15 +31,15 @@ namespace WorkOrderApplication.Controllers
         }
 
         // GET: RiderController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> ChangeStatus()
         {
-            return View();
+            return View(await _lookupService.GetLookups("TransactionStatus"));
         }
 
         // POST: RiderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult ChangeStatus(IFormCollection collection)
         {
             try
             {

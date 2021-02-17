@@ -9,6 +9,7 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public string Alias { get; set; }
         public string Name { get; set; }
         public string MasterName { get; set; }
+        public bool? IsActive { get; set; }
 
         public LookupMaster MasterNameNavigation { get; set; }
     }

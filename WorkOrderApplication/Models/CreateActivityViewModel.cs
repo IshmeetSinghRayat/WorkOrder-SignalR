@@ -10,6 +10,8 @@ namespace WorkOrderApplication.Models
     public class CreateActivityViewModel
     {
         public JobActivities JobActivitiesDetails { get; set; }
-        public List<SelectListItem> BusinessUnitsList { get; set; }
+        public List<SelectListItem> BusinessUnitsDD { get; set; }
+        public List<SelectListItem> StatusDD { get; set; }
+        public List<SelectListItem> DurationDD { get; set; }
     }
 }

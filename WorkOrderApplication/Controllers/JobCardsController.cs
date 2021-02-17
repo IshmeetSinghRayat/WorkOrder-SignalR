@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WorkOrderApplication.Models;
+using WorkOrderCore.Infrastructure.Helpers;
 using WorkOrderCore.Infrastructure.Persistence.DataContext;
 using WorkOrderCore.Services;
 
@@ -24,6 +25,7 @@ namespace WorkOrderApplication.Controllers
         // GET: JobCardsController
         public async Task<ActionResult> Index()
         {
+            ViewBag.businessUnitsList = await _lookupService.GetBusinessUnits();
             return View(await _jobCardService.GetAllJobCards());
         }
 
@@ -34,22 +36,32 @@ namespace WorkOrderApplication.Controllers
         }
 
         // GET: JobCardsController/Create
-        public async Task<ActionResult> Create(CreateJobCardViewModel model)
+        public async Task<ActionResult> Create()
         {
-            var businessUnitsData = await _lookupService.GetBusinessUnits();
-            model.JobCardDetails = new JobCards();
-            model.BusinessUnitsList = businessUnitsData.Select(v => new SelectListItem { Text = v.BusinessUniteDesc, Value = v.BusinessUnitId.ToString() }).ToList();
+            var businessUnitsList = await _lookupService.GetBusinessUnits();
+            var StatusList = await _lookupService.GetLookups(DataEnums.MasterLookupAlias.JobStatus.ToString());
+            var DurationList = await _lookupService.GetLookups(DataEnums.MasterLookupAlias.Duration.ToString());
+            CreateJobCardViewModel model = new CreateJobCardViewModel
+            {
+                BusinessUnitsDD = businessUnitsList.Select(v => new SelectListItem { Text = v.Description, Value = v.Id.ToString() }).ToList(),
+                StatusDD = StatusList.Select(v => new SelectListItem { Text = v.Name, Value = v.Alias.ToString() }).ToList(),
+                DurationDD = DurationList.Select(v => new SelectListItem { Text = v.Name, Value = v.Alias }).ToList(),
+                JobCardDetails = new JobCards
+                {
+                    JobStatus = "Open"
+                }
+            };
             return View(model);
         }
 
         // POST: JobCardsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(JobCards JobCardDetails)
+        public async Task<ActionResult> Create(CreateJobCardViewModel details)
         {
             try
             {
-                var dd = _jobCardService.AddJobCard(JobCardDetails);
+                var dd = await _jobCardService.AddJobCard(details.JobCardDetails);
                 return RedirectToAction(nameof(Index));
             }
             catch

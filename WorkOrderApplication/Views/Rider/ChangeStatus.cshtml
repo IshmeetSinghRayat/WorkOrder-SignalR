@@ -1,0 +1,41 @@
+﻿@model List<WorkOrderCore.Infrastructure.Persistence.DataContext.Lookups>
+
+@{
+    ViewData["Title"] = "ChangeStatus";
+}
+
+<h2>Change Status</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="list-group">
+            @foreach (var item in Model)
+            {
+                <a class="list-group-item list-group-item-action" onclick="TakeAction(@item.Alias)">
+                    @item.Name
+                </a>
+            }
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+<script>
+    function TakeAction() {
+        var URL = '@Url.Content("~/Rider/ChangeStatus")';
+        $.ajax({
+            type: "POST",
+            url: URL,
+            data: resultData,
+            success: function () { },
+            error: function () { }
+        });
+    }
+</script>
+}

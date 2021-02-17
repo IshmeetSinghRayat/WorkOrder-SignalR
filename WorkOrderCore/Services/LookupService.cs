@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,22 +17,21 @@ namespace WorkOrderCore.Services
         Task<List<Lookups>> GetLookups(string MasterLookupName);
 
     }
-    public class LookupService : ILookupService
+    public class LookupService :BaseService, ILookupService
     {
-        private readonly WorkOrderDBContext _context;
-
-        public LookupService(WorkOrderDBContext Context)
+        public LookupService(WorkOrderDBContext context, IHttpContextAccessor httpContextAccessor) 
+            : base(context, httpContextAccessor)
         {
-            _context = Context;
         }
+
         public async Task<List<BusinessUnit>> GetBusinessUnits()
         {
             return await _context.BusinessUnit.ToListAsync();
         }
 
-        public Task<List<Lookups>> GetLookups(string MasterLookupName)
+        public async Task<List<Lookups>> GetLookups(string MasterLookupName)
         {
-            return _context.Lookups.Where(c => c.MasterId == 1).ToListAsync();
+            return await _context.Lookups.Where(c => c.MasterName == MasterLookupName).ToListAsync();
         }
     }
 }

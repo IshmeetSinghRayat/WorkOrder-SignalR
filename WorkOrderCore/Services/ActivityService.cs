@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,12 @@ namespace WorkOrderCore.Services
         Task<bool> UpdateActivity(JobActivities model);
 
     }
-    public class ActivityService : IActivityService
+    public class ActivityService : BaseService, IActivityService
     {
-        private readonly WorkOrderDBContext _context;
-
-        public ActivityService(WorkOrderDBContext Context)
+        public ActivityService(WorkOrderDBContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {
-            _context = Context;
         }
+
         public async Task<List<JobActivities>> GetAllActivities()
         {
             var activities = await _context.JobActivities.ToListAsync();
@@ -42,7 +41,7 @@ namespace WorkOrderCore.Services
             {
                 model.CreatedDate = DateTime.Now;
                 model.UpdatedDate = DateTime.Now;
-                model.CreatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249";
+                model.CreatedBy = Userid;
                 _context.JobActivities.Add(model);
                 _context.SaveChanges();
                 return model;

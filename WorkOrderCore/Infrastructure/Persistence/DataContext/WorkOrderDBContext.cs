@@ -28,10 +28,9 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public virtual DbSet<JobActivities> JobActivities { get; set; }
         public virtual DbSet<JobCards> JobCards { get; set; }
         public virtual DbSet<JobCardsTranasctions> JobCardsTranasctions { get; set; }
+        public virtual DbSet<JobCardsTranasctionsLobs> JobCardsTranasctionsLobs { get; set; }
         public virtual DbSet<LookupMaster> LookupMaster { get; set; }
         public virtual DbSet<Lookups> Lookups { get; set; }
-
-        // Unable to generate entity type for table 'dbo.JobCardsTranasctionsLOBs'. Please see the warning messages.
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -152,13 +151,13 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 
             modelBuilder.Entity<BusinessUnit>(entity =>
             {
-                entity.Property(e => e.BusinessUnitId)
-                    .HasColumnName("BusinessUnitID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.BusinessUniteDesc).HasMaxLength(200);
+                entity.Property(e => e.Alias).HasMaxLength(200);
 
-                entity.Property(e => e.CreationDate).HasColumnType("date");
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.Description).HasMaxLength(200);
 
                 entity.Property(e => e.Remarks).HasMaxLength(200);
 
@@ -205,15 +204,20 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                     .IsRequired()
                     .HasMaxLength(450);
 
+                entity.Property(e => e.JobActivitiesStatus).HasMaxLength(100);
+
                 entity.Property(e => e.JobActivityDescriptioin).HasMaxLength(200);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(450);
+
+                entity.HasOne(d => d.BuninessUnit)
+                    .WithMany(p => p.JobActivities)
+                    .HasForeignKey(d => d.BuninessUnitId)
+                    .HasConstraintName("FK_JobActivities_BusinessUnit");
             });
 
             modelBuilder.Entity<JobCards>(entity =>
             {
-                entity.Property(e => e.BuninessUnitId).HasColumnName("BuninessUnitID");
-
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(450);
@@ -222,9 +226,7 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 
                 entity.Property(e => e.JobDescription).HasMaxLength(200);
 
-                entity.Property(e => e.JobStatus)
-                    .HasMaxLength(1)
-                    .IsUnicode(false);
+                entity.Property(e => e.JobStatus).HasMaxLength(100);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(450);
 
@@ -236,19 +238,19 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 
             modelBuilder.Entity<JobCardsTranasctions>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(450);
 
-                entity.Property(e => e.JobCardsTranasctionsEnd).HasColumnType("date");
+                entity.Property(e => e.JobCardsTranasctionsEndDate).HasColumnType("date");
 
                 entity.Property(e => e.JobCardsTranasctionsRemarks).HasMaxLength(200);
 
-                entity.Property(e => e.JobCardsTranasctionsStart).HasColumnType("date");
+                entity.Property(e => e.JobCardsTranasctionsStartDate).HasColumnType("date");
 
-                entity.Property(e => e.JobCardsTranasctionsStatus).HasMaxLength(1);
+                entity.Property(e => e.JobCardsTranasctionsStatus).HasMaxLength(100);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(450);
 
@@ -277,6 +279,27 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                     .HasConstraintName("FK_JobCardsTranasctions_JobCards1");
             });
 
+            modelBuilder.Entity<JobCardsTranasctionsLobs>(entity =>
+            {
+                entity.ToTable("JobCardsTranasctionsLOBs");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.DocumentDescription).HasMaxLength(200);
+
+                entity.Property(e => e.Lobdata)
+                    .IsRequired()
+                    .HasColumnName("LOBData");
+
+                entity.Property(e => e.UploadAt).HasColumnType("datetime");
+
+                entity.HasOne(d => d.JobCardsTranasctions)
+                    .WithMany(p => p.JobCardsTranasctionsLobs)
+                    .HasForeignKey(d => d.JobCardsTranasctionsId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobCardsTranasctionsLOBs_JobCardsTranasctions");
+            });
+
             modelBuilder.Entity<LookupMaster>(entity =>
             {
                 entity.HasKey(e => e.Alias);
@@ -292,8 +315,6 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 
             modelBuilder.Entity<Lookups>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Alias)
                     .IsRequired()
                     .HasMaxLength(100);

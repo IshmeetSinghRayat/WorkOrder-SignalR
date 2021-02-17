@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,14 +15,12 @@ namespace WorkOrderCore.Services
         Task<bool> UpdateJobCard(JobCards model);
 
     }
-    public class JobCardService : IJobCardService
+    public class JobCardService :BaseService, IJobCardService
     {
-        private readonly WorkOrderDBContext _context;
-
-        public JobCardService(WorkOrderDBContext Context)
+        public JobCardService(WorkOrderDBContext context, IHttpContextAccessor httpContextAccessor) : base(context, httpContextAccessor)
         {
-            _context = Context;
         }
+
         public async Task<List<JobCards>> GetAllJobCards()
         {
             return await _context.JobCards.ToListAsync();
@@ -48,7 +47,7 @@ namespace WorkOrderCore.Services
 
         public async Task<bool> UpdateJobCard(JobCards model)
         {
-            model.UpdatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249";
+            model.UpdatedBy = Userid;
             _context.JobCards.Update(model);
             await _context.SaveChangesAsync();
             return true;
