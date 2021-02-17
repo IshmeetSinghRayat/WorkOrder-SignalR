@@ -48,3 +48,5 @@ C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Activity\Index.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Activity\Create.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Rider\Index.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Transaction\Create.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Transaction\Index.cshtml.g.cs

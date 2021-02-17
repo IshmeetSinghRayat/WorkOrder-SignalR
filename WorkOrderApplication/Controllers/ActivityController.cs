@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WorkOrderCore.Persistence.DataContext;
+using WorkOrderCore.Infrastructure.Persistence.DataContext;
 using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Controllers
@@ -18,11 +18,9 @@ namespace WorkOrderApplication.Controllers
             _activityService = activityService;
         }
         // GET: ActivityController
-        public async Task<ActionResult> Index(int jobCardId, short businessUnitId)
+        public async Task<ActionResult> Index()
         {
-            ViewBag.JobCardId = jobCardId;
-            ViewBag.BusinessUnitId = businessUnitId;
-            var ActivityList = await _activityService.GetJobActivities(jobCardId);
+            var ActivityList = await _activityService.GetAllActivities();
             return View(ActivityList);
         }
 
@@ -33,10 +31,8 @@ namespace WorkOrderApplication.Controllers
         }
 
         // GET: ActivityController/Create
-        public ActionResult Create(int jobCardId, short buninessUnitId)
+        public ActionResult Create()
         {
-            ViewBag.JobCardId = jobCardId;
-            ViewBag.BusinessUnitId = buninessUnitId;
             return View();
         }
 
@@ -48,7 +44,7 @@ namespace WorkOrderApplication.Controllers
             try
             {
                 var activityDetails = await _activityService.AddActivity(model);
-                return RedirectToAction(nameof(Index), new { activityDetails.JobCardId, activityDetails .BuninessUnitId});
+                return RedirectToAction(nameof(Index));
             }
             catch
             {

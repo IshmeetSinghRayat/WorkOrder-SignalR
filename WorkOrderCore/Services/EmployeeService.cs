@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorkOrderCore.Persistence.DataContext;
+using WorkOrderCore.Infrastructure.Persistence.DataContext;
 
 namespace WorkOrderCore.Services
 {
     public interface IEmployeeService
     {
         Task<short> GetEmployeeType(string EmailId);
+        Task<List<Employee>> GetAllRiders(short EmployeeType);
         Task<Employee> AddEmployee(string UserId, short EmployeeType);
         Task<bool> UpdateActivity(JobActivities model);
 
@@ -22,6 +23,10 @@ namespace WorkOrderCore.Services
         public EmployeeService(WorkOrderDBContext Context)
         {
             _context = Context;
+        }
+        public async Task<List<Employee>> GetAllRiders(short EmployeeType)
+        {
+            return await _context.Employee.Where(v => v.EmployeeType == EmployeeType).ToListAsync();
         }
         public Task<short> GetEmployeeType(string EmailId)
         {
@@ -65,7 +70,5 @@ namespace WorkOrderCore.Services
             await _context.SaveChangesAsync();
             return true;
         }
-
-
     }
 }

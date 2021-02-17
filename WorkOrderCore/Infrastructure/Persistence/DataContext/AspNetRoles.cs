@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WorkOrderCore.Persistence.DataContext
+namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 {
     public partial class AspNetRoles
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WorkOrderCore.Persistence.DataContext
+namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 {
     public partial class JobActivities
     {
@@ -11,14 +11,16 @@ namespace WorkOrderCore.Persistence.DataContext
         }
 
         public int Id { get; set; }
-        public int? JobCardId { get; set; }
         public short? BuninessUnitId { get; set; }
         public string JobActivityDescriptioin { get; set; }
         public int? JobActivitiesStatus { get; set; }
         public short? MinDuration { get; set; }
         public short? MaxDuration { get; set; }
+        public string CreatedBy { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
 
-        public JobCards JobCard { get; set; }
         public ICollection<JobCardsTranasctions> JobCardsTranasctions { get; set; }
     }
 }

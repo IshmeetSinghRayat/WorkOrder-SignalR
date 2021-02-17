@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace WorkOrderCore.Persistence.DataContext
+namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 {
     public partial class WorkOrderDBContext : DbContext
     {
@@ -28,6 +28,19 @@ namespace WorkOrderCore.Persistence.DataContext
         public virtual DbSet<JobActivities> JobActivities { get; set; }
         public virtual DbSet<JobCards> JobCards { get; set; }
         public virtual DbSet<JobCardsTranasctions> JobCardsTranasctions { get; set; }
+        public virtual DbSet<LookupMaster> LookupMaster { get; set; }
+        public virtual DbSet<Lookups> Lookups { get; set; }
+
+        // Unable to generate entity type for table 'dbo.JobCardsTranasctionsLOBs'. Please see the warning messages.
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=DESKTOP-3UG1LAV\\SQLEXPRESS;Database=WorkOrderDB;Trusted_Connection=True;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -188,14 +201,13 @@ namespace WorkOrderCore.Persistence.DataContext
 
             modelBuilder.Entity<JobActivities>(entity =>
             {
-                entity.Property(e => e.BuninessUnitId).HasColumnName("BuninessUnitID");
+                entity.Property(e => e.CreatedBy)
+                    .IsRequired()
+                    .HasMaxLength(450);
 
                 entity.Property(e => e.JobActivityDescriptioin).HasMaxLength(200);
 
-                entity.HasOne(d => d.JobCard)
-                    .WithMany(p => p.JobActivities)
-                    .HasForeignKey(d => d.JobCardId)
-                    .HasConstraintName("FK_JobActivities_Jobcard");
+                entity.Property(e => e.UpdatedBy).HasMaxLength(450);
             });
 
             modelBuilder.Entity<JobCards>(entity =>
@@ -224,15 +236,11 @@ namespace WorkOrderCore.Persistence.DataContext
 
             modelBuilder.Entity<JobCardsTranasctions>(entity =>
             {
-                entity.Property(e => e.JobCardsTranasctionsId)
-                    .HasColumnName("JobCardsTranasctionsID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
-
-                entity.Property(e => e.JobActivityId).HasColumnName("JobActivityID");
-
-                entity.Property(e => e.JobCardId).HasColumnName("JobCardID");
+                entity.Property(e => e.CreatedBy)
+                    .IsRequired()
+                    .HasMaxLength(450);
 
                 entity.Property(e => e.JobCardsTranasctionsEnd).HasColumnType("date");
 
@@ -242,11 +250,19 @@ namespace WorkOrderCore.Persistence.DataContext
 
                 entity.Property(e => e.JobCardsTranasctionsStatus).HasMaxLength(1);
 
+                entity.Property(e => e.UpdatedBy).HasMaxLength(450);
+
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.JobCardsTranasctions)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobCardsTranasctions_Employee");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.InverseIdNavigation)
+                    .HasForeignKey<JobCardsTranasctions>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobCardsTranasctions_JobCardsTranasctions");
 
                 entity.HasOne(d => d.JobActivity)
                     .WithMany(p => p.JobCardsTranasctions)
@@ -259,6 +275,42 @@ namespace WorkOrderCore.Persistence.DataContext
                     .HasForeignKey(d => d.JobCardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobCardsTranasctions_JobCards1");
+            });
+
+            modelBuilder.Entity<LookupMaster>(entity =>
+            {
+                entity.HasKey(e => e.Alias);
+
+                entity.Property(e => e.Alias)
+                    .HasMaxLength(100)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Lookups>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Alias)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.MasterName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.HasOne(d => d.MasterNameNavigation)
+                    .WithMany(p => p.Lookups)
+                    .HasForeignKey(d => d.MasterName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Lookups_MasterLookup");
             });
         }
     }

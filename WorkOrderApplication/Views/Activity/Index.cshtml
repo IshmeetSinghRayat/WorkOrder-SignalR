@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WorkOrderCore.Persistence.DataContext.JobActivities>
+﻿@model IEnumerable<WorkOrderCore.Infrastructure.Persistence.DataContext.JobActivities>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,9 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.JobCardId)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.BuninessUnitId)
             </th>
@@ -38,9 +35,6 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.JobCardId)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.BuninessUnitId)
                 </td>
                 <td>
@@ -57,8 +51,8 @@
                 </td>
                 <td>
                     <a class="btn btn-success" asp-action="Edit">Edit</a>
-                    <a class="btn btn-success" asp-action="Details">Details</a>
-                    <a class="btn btn-success" asp-action="Delete">Delete</a>
+                    <a class="btn btn-warning" asp-controller="Rider" asp-action="Index">Assign Activity</a>
+                    <a class="btn btn-danger" asp-action="Delete">Delete</a>
                 </td>
             </tr>
         }

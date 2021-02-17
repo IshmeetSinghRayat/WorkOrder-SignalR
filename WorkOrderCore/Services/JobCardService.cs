@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using WorkOrderCore.Persistence.DataContext;
+using WorkOrderCore.Infrastructure.Persistence.DataContext;
 
 namespace WorkOrderCore.Services
 {

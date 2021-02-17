@@ -10,8 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkOrderCore.Infrastructure.Persistence.DataContext;
 using WorkOrderCore.Middlewares;
-using WorkOrderCore.Persistence.DataContext;
 using WorkOrderCore.Services;
 
 namespace WorkOrderApplication
@@ -39,6 +39,7 @@ namespace WorkOrderApplication
             services.AddTransient<ILookupService, LookupService>();
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
+            services.AddTransient<ITransactionService, TransactionService>();
 
             services.AddMvc()
                                .AddRazorPagesOptions(options =>

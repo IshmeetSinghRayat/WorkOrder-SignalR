@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctions>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a class="btn btn-success" asp-action="Create">Create Activity</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobCardsTranasctionsStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobCardsTranasctionsEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobCardsTranasctionsStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobCardsTranasctionsRemarks)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JobCardsTranasctionsClosedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsRemarks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobCardsTranasctionsClosedAt)
+            </td>
+            <td>
+                <a class="btn btn-success" asp-action="Edit">Edit</a>
+                <a class="btn btn-warning" asp-action="Details">Assign Activity</a>
+                <a class="btn btn-danger" asp-action="Delete">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

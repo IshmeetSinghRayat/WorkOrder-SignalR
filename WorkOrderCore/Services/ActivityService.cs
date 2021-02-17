@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorkOrderCore.Persistence.DataContext;
+using WorkOrderCore.Infrastructure.Persistence.DataContext;
 
 namespace WorkOrderCore.Services
 {
@@ -33,20 +33,18 @@ namespace WorkOrderCore.Services
         public async Task<List<JobActivities>> GetJobActivities(int jobCardId)
         {
             var activities = await _context.JobActivities.ToListAsync();
-            return activities.Where(v=>v.JobCardId == jobCardId).ToList();
+            return activities.ToList();
         }
 
         public async Task<JobActivities> AddActivity(JobActivities model)
         {
             try
             {
-                //model.CreationDate = DateTime.Now;
-                //model.UpdatedDate = DateTime.Now;
-                //model.CreatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249";
+                model.CreatedDate = DateTime.Now;
+                model.UpdatedDate = DateTime.Now;
+                model.CreatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249";
                 _context.JobActivities.Add(model);
                 _context.SaveChanges();
-
-
                 return model;
             }
             catch (Exception es)

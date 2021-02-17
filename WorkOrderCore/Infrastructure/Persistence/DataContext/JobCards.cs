@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WorkOrderCore.Persistence.DataContext
+namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 {
     public partial class JobCards
     {
         public JobCards()
         {
-            JobActivities = new HashSet<JobActivities>();
             JobCardsTranasctions = new HashSet<JobCardsTranasctions>();
         }
 
@@ -23,7 +22,6 @@ namespace WorkOrderCore.Persistence.DataContext
         public string UpdatedBy { get; set; }
 
         public BusinessUnit BuninessUnit { get; set; }
-        public ICollection<JobActivities> JobActivities { get; set; }
         public ICollection<JobCardsTranasctions> JobCardsTranasctions { get; set; }
     }
 }

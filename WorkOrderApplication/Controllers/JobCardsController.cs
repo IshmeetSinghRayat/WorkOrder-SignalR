@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WorkOrderApplication.Models;
-using WorkOrderCore.Persistence.DataContext;
+using WorkOrderCore.Infrastructure.Persistence.DataContext;
 using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Controllers
