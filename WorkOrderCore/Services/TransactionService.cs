@@ -12,7 +12,7 @@ namespace WorkOrderCore.Services
 {
     public interface ITransactionService
     {
-        Task<List<JobCardsTranasctions>> GetAllTransactions();
+        Task<List<JobcardTransactionsViewModel>> GetAllTransactions();
         Task<List<JobCardsTranasctions>> GetEmployeeTransactions();
         Task<JobCardsTranasctions> GetTransactionByTransactionId(short Id);
         Task<JobCardsTranasctions> AddTransaction(JobCardsTranasctions model);
@@ -25,9 +25,9 @@ namespace WorkOrderCore.Services
         {
         }
 
-        public async Task<List<JobCardsTranasctions>> GetAllTransactions()
+        public async Task<List<JobcardTransactionsViewModel>> GetAllTransactions()
         {
-            var transactions = (from a in _context.JobCardsTranasctions
+            var transactions = await (from a in _context.JobCardsTranasctions
                                 join b in _context.Employee on a.EmployeeId equals b.Id
                                 join c in _context.AspNetUsers on b.UserId equals c.Id
                                 select new JobcardTransactionsViewModel
@@ -47,11 +47,10 @@ namespace WorkOrderCore.Services
                                     UpdatedBy = a.UpdatedBy,
                                     CreatedDate = a.CreatedDate,
                                     UpdatedDate = a.UpdatedDate,
-                                });
+                                }).ToListAsync();
 
 
-            var assignedActivities = await _context.JobCardsTranasctions.ToListAsync();
-            return assignedActivities.ToList();
+            return transactions;
         }
         public async Task<List<JobCardsTranasctions>> GetEmployeeTransactions()
         {

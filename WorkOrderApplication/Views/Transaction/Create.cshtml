@@ -9,14 +9,14 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="form-group" style="float:right">
-            <input type="submit" value="Create" class="btn btn-success" />
+            <input type="submit" value="Create" class="btn btn-warning" />
         </div>
     </div>
     <form asp-action="Create">
         <input type="hidden" asp-for="TransactionDetails.CreatedDate" />
         <input type="hidden" asp-for="TransactionDetails.CreatedBy" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group">
                 <label class="control-label">Job Card</label>
                 <select asp-for="TransactionDetails.JobCardId" asp-items="@Model.JobcardDD" class="form-control">
@@ -25,7 +25,7 @@
                 <span asp-validation-for="TransactionDetails.JobCardId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group">
                 <label class="control-label">Job Activities</label>
                 <select asp-for="TransactionDetails.JobActivityId" asp-items="@Model.JobActivityDD" class="form-control">
@@ -34,7 +34,7 @@
                 <span asp-validation-for="TransactionDetails.JobActivityId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group">
                 <label class="control-label">Employees</label>
                 <select asp-for="TransactionDetails.EmployeeId" asp-items="@Model.EmployeesDD" class="form-control">
@@ -43,30 +43,20 @@
                 <span asp-validation-for="TransactionDetails.EmployeeId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group">
                 <label asp-for="TransactionDetails.JobCardsTranasctionsStartDate" class="control-label">Transaction Start Date</label>
                 <input type="date" asp-for="TransactionDetails.JobCardsTranasctionsStartDate" class="form-control" />
                 <span asp-validation-for="TransactionDetails.JobCardsTranasctionsStartDate" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group">
                 <label asp-for="TransactionDetails.JobCardsTranasctionsEndDate" class="control-label">Transaction End Date</label>
                 <input type="date" asp-for="TransactionDetails.JobCardsTranasctionsEndDate" class="form-control" />
                 <span asp-validation-for="TransactionDetails.JobCardsTranasctionsEndDate" class="text-danger"></span>
             </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form-group">
-                <label class="control-label">Transaction Status</label>
-                <select asp-for="TransactionDetails.JobCardsTranasctionsStatus" asp-items="@Model.JobcardDD" class="form-control" required>
-                    <option selected disabled>--Select Status--</option>
-                </select>
-                <span asp-validation-for="TransactionDetails.JobCardsTranasctionsStatus" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-lg-6">
+        </div>  <div class="col-lg-4">
             <div class="form-group">
                 <label asp-for="TransactionDetails.JobCardsTranasctionsClosedAt" class="control-label">Transaction Close At</label>
                 <input type="date" asp-for="TransactionDetails.JobCardsTranasctionsClosedAt" class="form-control" />
@@ -75,15 +65,25 @@
         </div>
         <div class="col-lg-6">
             <div class="form-group">
+                <label class="control-label">Transaction Status</label>
+                <select asp-for="TransactionDetails.JobCardsTranasctionsStatus" asp-items="@Model.StatusDD" class="form-control" required>
+                    <option selected disabled>--Select Status--</option>
+                </select>
+                <span asp-validation-for="TransactionDetails.JobCardsTranasctionsStatus" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
                 <label asp-for="TransactionDetails.PrioritySequence" class="control-label">Priority</label>
                 <input type="number" asp-for="TransactionDetails.PrioritySequence" class="form-control" />
                 <span asp-validation-for="TransactionDetails.PrioritySequence" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="form-group">
                 <label asp-for="TransactionDetails.JobCardsTranasctionsRemarks" class="control-label">Transaction remark</label>
-                <input asp-for="TransactionDetails.JobCardsTranasctionsRemarks" class="form-control" />
+                <input asp-for="TransactionDetails.JobCardsTranasctionsRemarks" class="form-control" style="height: 87px;" />
                 <span asp-validation-for="TransactionDetails.JobCardsTranasctionsRemarks" class="text-danger"></span>
             </div>
         </div>

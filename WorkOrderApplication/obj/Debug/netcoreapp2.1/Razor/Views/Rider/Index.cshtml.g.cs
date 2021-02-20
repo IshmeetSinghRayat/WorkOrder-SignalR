@@ -137,7 +137,7 @@ using Microsoft.AspNetCore.Http;
             WriteLiteral("\r\n\r\n        </div>\r\n\r\n    </div>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-4 col-sm-4 col-xs-4 list-group\">\r\n            ");
             EndContext();
             BeginContext(1555, 166, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "56ad6a9036a644c0bd8481210f82e86d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7f5e415b12e1414b9ca1d162a2846da0", async() => {
                 BeginContext(1689, 28, true);
                 WriteLiteral("<i class=\"fa fa-wrench\"></i>");
                 EndContext();

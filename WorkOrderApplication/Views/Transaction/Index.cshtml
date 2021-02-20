@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctions>
+﻿@model IEnumerable<WorkOrderCore.Model.JobcardTransactionsViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -38,7 +38,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.EmployeeId)
+                @Html.DisplayFor(modelItem => item.EmployeeFullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.JobCardsTranasctionsStartDate)
