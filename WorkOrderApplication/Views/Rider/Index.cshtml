@@ -3,46 +3,70 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<style>
+    .fontSize {
+        font-weight: bold;
+        font-size: 20px;
+    }
+    .marginWithFontSize {
+        margin-bottom: 13px;
+        font-size: 16px;
+    }
+    .rightBorderSolid {
+        border-right: 1px solid darkgrey;
+    }
+    .dataStyle {
+        border: 1px solid #eaeaea;
+        padding: 26px;
+    }
+    .padding-14 {
+        padding-bottom: 14px;
+    }
+    .btnShowAttachments {
+        background-color: #c39292
+    }
+    .btnAddAttachments {
+        background-color: #ffaaf2
+    }
+    .btnSettingsAttachments {
+        background-color: #b5b5b5
+    }
+</style>
 <h2>My Activities</h2>
+<hr />
+<div class="row padding-14">
+    <div class="col-md-6 col-sm-6 col-xs-6 fontSize rightBorderSolid text-center">
+        Start Date
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-6 fontSize text-center">
+        End Date
+    </div>
+</div>
+@foreach (var item in Model)
+{
+<div class="dataStyle">
+    <div class="row marginWithFontSize">
+        <div class="col-md-6 col-xs-6 text-center rightBorderSolid">
+            @item.JobCardsTranasctionsStartDate.ToString("dddd, dd MMMM yyyy")
 
+        </div>
+        <div class="col-md-6 col-xs-6 text-center">
+            @item.JobCardsTranasctionsEndDate.ToString("dddd, dd MMMM yyyy")
 
-<table class="table table-bordered table-dark">
-    <thead>
-        <tr>
-            <th>
-                Star tDate
-            </th>
-            <th>
-                End Date
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @item.JobCardsTranasctionsStartDate.ToString("dddd, dd MMMM yyyy")
-            </td>
-            <td>
-                @item.JobCardsTranasctionsEndDate.ToString("dddd, dd MMMM yyyy")
-            </td>
-            <td>
-                <a asp-action="ChangeStatus" class="btn btn-success"><i class="fa fa-wrench"></i></a>
-                <a class="btn btn-primary"><i class="fa fa-upload" aria-hidden="true"></i> </a>
-                <a class="btn btn-warning"><i class="fa fa-low-vision"></i></a>
-                @*<a class="btn btn-warning" asp-action="ChangeStatus">
-                    Status
-                </a>
-                <a class="btn btn-success">
-                    View Attachment
-                </a>
-                <a class="btn btn-warning">
-                    Add Attachment
-                </a>*@
-            </td>
-        </tr>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+            <a asp-action="ChangeStatus" asp-route-Id="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnSettingsAttachments"><i class="fa fa-wrench"></i></a>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+            <a class="btn btn-sm list-group-item list-group-item-action btnAddAttachments"><i class="fa fa-upload" aria-hidden="true"></i> </a>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+            <a class="btn btn-sm list-group-item list-group-item-action btnShowAttachments"><i class="fa fa-low-vision"></i></a>
+        </div>
+    </div>
+</div>
+
 }
-    </tbody>
-</table>

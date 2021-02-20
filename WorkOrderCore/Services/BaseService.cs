@@ -11,7 +11,7 @@ namespace WorkOrderCore.Services
     public class BaseService
     {
         public readonly WorkOrderDBContext _context;
-        public readonly string Userid;
+        public readonly string LoginUserid;
         public readonly string EmployeeId; 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -20,7 +20,7 @@ namespace WorkOrderCore.Services
         {
             _context = context;
             _httpContextAccessor = httpContextAccessor;
-            Userid = _httpContextAccessor.HttpContext.Session.GetString("Userid");
+            LoginUserid = _httpContextAccessor.HttpContext.Session.GetString("LoginUserid");
             EmployeeId = _httpContextAccessor.HttpContext.Session.GetString("EmployeeId");
         }
     }

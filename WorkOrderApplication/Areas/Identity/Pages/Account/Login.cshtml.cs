@@ -87,7 +87,7 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
                         return Page();
                     }
                     _logger.LogInformation("User logged in.");
-                    HttpContext.Session.SetString("UserId", employeeDetails.UserId);
+                    HttpContext.Session.SetString("LoginUserid", employeeDetails.UserId);
                     HttpContext.Session.SetString("EmployeeId", employeeDetails.EmployeeId.ToString());
 
                     if (employeeDetails.EmployeeType == 1)

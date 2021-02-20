@@ -47,7 +47,7 @@ namespace WorkOrderCore.Services
 
         public async Task<bool> UpdateJobCard(JobCards model)
         {
-            model.UpdatedBy = Userid;
+            model.UpdatedBy = LoginUserid;
             _context.JobCards.Update(model);
             await _context.SaveChangesAsync();
             return true;

@@ -41,7 +41,7 @@ namespace WorkOrderCore.Services
             {
                 model.CreatedDate = DateTime.Now;
                 model.UpdatedDate = DateTime.Now;
-                model.CreatedBy = Userid;
+                model.CreatedBy = LoginUserid;
                 _context.JobActivities.Add(model);
                 _context.SaveChanges();
                 return model;

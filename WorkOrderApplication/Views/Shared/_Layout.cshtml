@@ -35,7 +35,11 @@
                     <li><a asp-area="" asp-controller="JobCards" asp-action="Index">Job Cards</a></li>
                     <li><a asp-area="" asp-controller="Activity" asp-action="Index">Job Activity</a></li>
                     <li><a asp-area="" asp-controller="Transaction" asp-action="Index">Job Transaction</a></li>
+                    <li>
+                        <span class="badge notification-count" id="notificationCount" data-toggle="popover" title="Notifications"></span>
+                    </li>
                 </ul>
+
             </div>
         </div>
     </nav>
@@ -53,6 +57,7 @@
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/signalr/dist/browser/signalr.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">

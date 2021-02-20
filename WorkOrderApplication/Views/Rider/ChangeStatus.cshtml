@@ -4,38 +4,57 @@
     ViewData["Title"] = "ChangeStatus";
 }
 
-<h2>Change Status</h2>
-
-<hr />
 <div class="row">
+    <h2>Change Transaction Status</h2>
+
     <div class="col-md-4">
-        <div class="list-group">
-            @foreach (var item in Model)
-            {
-                <a class="list-group-item list-group-item-action" onclick="TakeAction(@item.Alias)">
-                    @item.Name
-                </a>
-            }
-        </div>
+        <a class="btn btn-warning" asp-action="Index" style="float:right">Back</a>
     </div>
 </div>
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<hr />
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="list-group">
+                @foreach (var item in Model)
+                {
+                    <a class="list-group-item list-group-item-action" onclick="TakeAction('@item.Alias','@ViewBag.TransactionId')" id="@item.Alias">
+                        @item.Name
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 <script>
-    function TakeAction() {
-        var URL = '@Url.Content("~/Rider/ChangeStatus")';
+    $(function () {
+        $("#" + '@ViewBag.currentStatus').addClass("active");
+    })
+    function TakeAction(value, transactionId) {
+        $(".list-group a.active").removeClass('active');
+        $("#" + value).addClass("active");
+        var model = {
+            Id: transactionId,
+            JobCardsTranasctionsStatus: value
+        };
+        var URL = '@Url.Action("ChangeTransactionStatus", "Rider")';
         $.ajax({
             type: "POST",
             url: URL,
-            data: resultData,
-            success: function () { },
-            error: function () { }
+            data: JSON.stringify(model),
+            dataType: 'JSON',
+            contentType: "application/json",
+            success: function () {
+                window.location.href = '@Url.Action("Index", "Rider")';
+            },
+            error: function (passParams) {
+                console.log(passParams);
+            }
         });
     }
 </script>
-}
+    }

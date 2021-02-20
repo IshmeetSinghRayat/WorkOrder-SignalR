@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WorkOrderCore.Infrastructure.Persistence.DataContext;
+using WorkOrderCore.Model;
 using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Controllers
@@ -12,11 +15,13 @@ namespace WorkOrderApplication.Controllers
     {
         private readonly ITransactionService _transactionService;
         private readonly ILookupService _lookupService;
+        private readonly IHubContext<SignalServer> _hubContext;
 
-        public RiderController(ITransactionService transactionService, ILookupService lookupService)
+        public RiderController(ITransactionService transactionService, ILookupService lookupService, IHubContext<SignalServer> hubContext)
         {
             _transactionService = transactionService;
             _lookupService = lookupService;
+            _hubContext = hubContext;
         }
         // GET: RiderController
         public async Task<ActionResult> Index()
@@ -31,19 +36,28 @@ namespace WorkOrderApplication.Controllers
         }
 
         // GET: RiderController/Create
-        public async Task<ActionResult> ChangeStatus()
+        public async Task<ActionResult> ChangeStatus(short Id)
         {
+            var transactionDetails = await _transactionService.GetTransactionByTransactionId(Id);
+            ViewBag.currentStatus = transactionDetails.JobCardsTranasctionsStatus;
+            ViewBag.TransactionId = Id;
             return View(await _lookupService.GetLookups("TransactionStatus"));
         }
 
         // POST: RiderController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ChangeStatus(IFormCollection collection)
+        public async Task<ActionResult> ChangeTransactionStatus([FromBody] RiderChangeStatusViewModel model)
         {
+            bool success = false;
+            string message = "";
             try
             {
-                return RedirectToAction(nameof(Index));
+                success = await _transactionService.UpdateTransaction(model);
+                if (success)
+                {
+                    await _hubContext.Clients.All.SendAsync("ReceiveMessage", "", "");
+                }
+                return Json(new { success, message });
             }
             catch
             {

@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WorkOrderApplication.Models;
+using WorkOrderCore.Infrastructure.Helpers;
 using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Controllers
@@ -16,17 +18,23 @@ namespace WorkOrderApplication.Controllers
         private readonly IEmployeeService _employeeService;
         private readonly IActivityService _activityService;
         private readonly IJobCardService _jobCardService;
+        private readonly IHubContext<SignalServer> _hubContext;
+        private readonly ILookupService _lookupServcie;
 
         public TransactionController(
             ITransactionService transactionService, 
             IEmployeeService employeeService,
             IActivityService activityService,
-            IJobCardService jobCardService)
+            IJobCardService jobCardService,
+            IHubContext<SignalServer> hubContext,
+            ILookupService lookupServcie)
         {
             _transactionService = transactionService;
             _employeeService = employeeService;
             _activityService = activityService;
             _jobCardService = jobCardService;
+            _hubContext = hubContext;
+            _lookupServcie = lookupServcie;
         }
         // GET: AssignActivityController
         public async Task<ActionResult> Index()
@@ -46,11 +54,13 @@ namespace WorkOrderApplication.Controllers
             var ridersList = await _employeeService.GetAllRiders(1);
             var jobCardList = await _jobCardService.GetAllJobCards();
             var activityList = await _activityService.GetAllActivities();
+            var StatusList = await _lookupServcie.GetLookups(DataEnums.MasterLookupAlias.JobStatus.ToString());
             TransactionViewModel model = new TransactionViewModel
             {
                 EmployeesDD = ridersList.Select(c => new SelectListItem { Text = c.FullName.ToString(), Value = c.EmployeeId.ToString() }).ToList(),
                 JobcardDD = jobCardList.Select(c => new SelectListItem { Text = c.JobDescription.ToString(), Value = c.Id.ToString() }).ToList(),
                 JobActivityDD = activityList.Select(c => new SelectListItem { Text = c.JobActivityDescriptioin.ToString(), Value = c.Id.ToString() }).ToList(),
+                StatusDD = StatusList.Select(v => new SelectListItem { Text = v.Name, Value = v.Alias.ToString() }).ToList(),
                 TransactionDetails = new WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctions 
                 { 
                     JobCardsTranasctionsEndDate = DateTime.Now,

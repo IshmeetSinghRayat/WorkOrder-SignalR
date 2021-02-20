@@ -52,7 +52,15 @@ namespace WorkOrderApplication
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<ITransactionService, TransactionService>();
-
+            services.AddSignalR();
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowCredentials();
+                });
+            });
             services.AddMvc()
                                .AddRazorPagesOptions(options =>
                                {
@@ -79,6 +87,11 @@ namespace WorkOrderApplication
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
+            app.UseAuthentication();
+            app.UseSignalR(route => {
+                route.MapHub<SignalServer>("/signalServer");
+            });
+            app.UseCors();
 
             app.UseMvc(routes =>
             {

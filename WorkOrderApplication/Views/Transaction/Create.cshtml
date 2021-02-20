@@ -59,16 +59,11 @@
         </div>
         <div class="col-lg-6">
             <div class="form-group">
-                <label asp-for="TransactionDetails.JobCardsTranasctionsStatus" class="control-label">Transaction Status</label>
-                <input asp-for="TransactionDetails.JobCardsTranasctionsStatus" class="form-control" />
+                <label class="control-label">Transaction Status</label>
+                <select asp-for="TransactionDetails.JobCardsTranasctionsStatus" asp-items="@Model.JobcardDD" class="form-control" required>
+                    <option selected disabled>--Select Status--</option>
+                </select>
                 <span asp-validation-for="TransactionDetails.JobCardsTranasctionsStatus" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form-group">
-                <label asp-for="TransactionDetails.JobCardsTranasctionsRemarks" class="control-label">Transaction remark</label>
-                <input asp-for="TransactionDetails.JobCardsTranasctionsRemarks" class="form-control" />
-                <span asp-validation-for="TransactionDetails.JobCardsTranasctionsRemarks" class="text-danger"></span>
             </div>
         </div>
         <div class="col-lg-6">
@@ -81,8 +76,15 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label asp-for="TransactionDetails.PrioritySequence" class="control-label">Priority</label>
-                <input type="date" asp-for="TransactionDetails.PrioritySequence" class="form-control" />
+                <input type="number" asp-for="TransactionDetails.PrioritySequence" class="form-control" />
                 <span asp-validation-for="TransactionDetails.PrioritySequence" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label asp-for="TransactionDetails.JobCardsTranasctionsRemarks" class="control-label">Transaction remark</label>
+                <input asp-for="TransactionDetails.JobCardsTranasctionsRemarks" class="form-control" />
+                <span asp-validation-for="TransactionDetails.JobCardsTranasctionsRemarks" class="text-danger"></span>
             </div>
         </div>
         <div class="col-lg-12">
