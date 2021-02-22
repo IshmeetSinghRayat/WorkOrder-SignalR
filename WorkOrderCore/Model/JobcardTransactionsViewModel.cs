@@ -11,6 +11,9 @@ namespace WorkOrderCore.Model
         public int JobActivityId { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeFullName { get; set; }
+        public string ActivityName { get; set; }
+        public string JobName { get; set; }
+
         public DateTime JobCardsTranasctionsStartDate { get; set; }
         public DateTime JobCardsTranasctionsEndDate { get; set; }
         public string JobCardsTranasctionsStatus { get; set; }

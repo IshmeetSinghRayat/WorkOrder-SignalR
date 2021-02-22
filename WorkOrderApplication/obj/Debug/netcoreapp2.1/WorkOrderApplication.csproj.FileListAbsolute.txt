@@ -16,10 +16,6 @@ C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\WorkOrderApplication.TagHelpers.input.cache
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\WorkOrderApplication.TagHelpers.output.cache
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\WorkOrderApplication.RazorCoreGenerate.cache
-C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Home\About.cshtml.g.cs
-C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Home\Contact.cshtml.g.cs
-C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_CookieConsentPartial.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_Layout.cshtml.g.cs
@@ -52,3 +48,6 @@ C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Transaction\Index.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Rider\ChangeStatus.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\bin\Debug\netcoreapp2.1\libman.json
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Rider\AddAttachment.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Rider\ShowAttachment.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ClientLayout.cshtml.g.cs

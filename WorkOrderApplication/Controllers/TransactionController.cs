@@ -75,10 +75,14 @@ namespace WorkOrderApplication.Controllers
         // POST: AssignActivityController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TransactionViewModel model)
+        public async Task<ActionResult> Create(TransactionViewModel model)
         {
             try
             {
+                if (await _transactionService.CheckDuplicatePrioritySequence(model.TransactionDetails.JobCardId, model.TransactionDetails.PrioritySequence.Value))
+                {
+                    return View();
+                }
                 var result = _transactionService.AddTransaction(model.TransactionDetails);
                 return RedirectToAction(nameof(Index));
             }

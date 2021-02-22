@@ -22,6 +22,7 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual DbSet<AssignTransaction> AssignTransaction { get; set; }
         public virtual DbSet<BusinessUnit> BusinessUnit { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<EmployeeOccupancy> EmployeeOccupancy { get; set; }
@@ -147,6 +148,24 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<AssignTransaction>(entity =>
+            {
+                entity.HasKey(e => e.TransactionId);
+
+                entity.Property(e => e.TransactionId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.AssignTransaction)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .HasConstraintName("FK_AssignTransaction_Employee");
+
+                entity.HasOne(d => d.Transaction)
+                    .WithOne(p => p.AssignTransaction)
+                    .HasForeignKey<AssignTransaction>(d => d.TransactionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AssignTransaction_Transaction");
             });
 
             modelBuilder.Entity<BusinessUnit>(entity =>
@@ -283,15 +302,13 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
             {
                 entity.ToTable("JobCardsTranasctionsLOBs");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.DocumentDescription).HasMaxLength(200);
+
+                entity.Property(e => e.FileType).HasMaxLength(500);
 
                 entity.Property(e => e.Lobdata)
                     .IsRequired()
                     .HasColumnName("LOBData");
-
-                entity.Property(e => e.UploadAt).HasColumnType("datetime");
 
                 entity.HasOne(d => d.JobCardsTranasctions)
                     .WithMany(p => p.JobCardsTranasctionsLobs)

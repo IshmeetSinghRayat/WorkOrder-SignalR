@@ -1,7 +1,8 @@
-﻿@model List<WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctions>
-
+﻿@model List<WorkOrderCore.Model.JobcardTransactionsViewModel>
 @{
     ViewData["Title"] = "Index";
+    Layout = "/Views/Shared/_ClientLayout.csHtml";
+
 }
 <style>
     .fontSize {
@@ -32,41 +33,45 @@
         background-color: #b5b5b5
     }
 </style>
-<h2>My Activities</h2>
-<hr />
-<div class="row padding-14">
-    <div class="col-md-6 col-sm-6 col-xs-6 fontSize rightBorderSolid text-center">
-        Start Date
-    </div>
-    <div class="col-md-6 col-sm-6 col-xs-6 fontSize text-center">
-        End Date
+<div class="row">
+    <h2>My Activities</h2>
+
+    <div class="col-md-12">
+        <button type="button" class="btn btn-warning" onClick="window.location.reload();" style="float:right">Reload</button>
     </div>
 </div>
+<hr />
 @foreach (var item in Model)
 {
-<div class="dataStyle">
-    <div class="row marginWithFontSize">
-        <div class="col-md-6 col-xs-6 text-center rightBorderSolid">
+<fieldset class="scheduler-border">
+    <legend class="scheduler-border">
+        @item.JobCardId - @item.ActivityName
+    </legend>
+    <div class="row" style="margin:1px">
+        <div class="col-md-6 col-xs-6 rightBorderSolid">
+            <label>Start Date</label>
+            <br />
             @item.JobCardsTranasctionsStartDate.ToString("dddd, dd MMMM yyyy")
 
         </div>
-        <div class="col-md-6 col-xs-6 text-center">
+        <div class="col-md-6 col-xs-6">
+            <label>End Date</label>
+            <br />
             @item.JobCardsTranasctionsEndDate.ToString("dddd, dd MMMM yyyy")
 
         </div>
-
     </div>
-    <div class="row">
+    <br />
+    <div class="row" style="margin:1px">
         <div class="col-md-4 col-sm-4 col-xs-4 list-group">
             <a asp-action="ChangeStatus" asp-route-Id="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnSettingsAttachments"><i class="fa fa-wrench"></i></a>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4 list-group">
-            <a class="btn btn-sm list-group-item list-group-item-action btnAddAttachments"><i class="fa fa-upload" aria-hidden="true"></i> </a>
+            <a asp-action="AddAttachment" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnAddAttachments"><i class="fa fa-upload" aria-hidden="true"></i> </a>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4 list-group">
-            <a class="btn btn-sm list-group-item list-group-item-action btnShowAttachments"><i class="fa fa-low-vision"></i></a>
+            <a asp-action="ShowAttachment" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnShowAttachments"><i class="fa fa-low-vision"></i></a>
         </div>
     </div>
-</div>
-
+</fieldset>
 }

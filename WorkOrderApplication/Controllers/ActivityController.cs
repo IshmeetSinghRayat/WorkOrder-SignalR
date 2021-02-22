@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,15 @@ namespace WorkOrderApplication.Controllers
     {
         private readonly IActivityService _activityService;
         private readonly ILookupService _lookupService;
+        private readonly IHubContext<SignalServer> _hubContext;
 
-        public ActivityController(IActivityService activityService, ILookupService lookupService)
+        public ActivityController(IActivityService activityService, 
+            ILookupService lookupService,
+            IHubContext<SignalServer> hubContext)
         {
             _activityService = activityService;
             _lookupService = lookupService;
+            _hubContext = hubContext;
         }
         // GET: ActivityController
         public async Task<ActionResult> Index()
@@ -65,6 +70,7 @@ namespace WorkOrderApplication.Controllers
             try
             {
                 var activityDetails = await _activityService.AddActivity(model.JobActivitiesDetails);
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", "", "");
                 return RedirectToAction(nameof(Index));
             }
             catch

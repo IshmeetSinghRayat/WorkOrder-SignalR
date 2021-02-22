@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,12 @@ namespace WorkOrderApplication.Controllers
         {
             return LocalRedirect("/identity/account/Login");
         }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("LoginUserid");
+            HttpContext.Session.Remove("EmployeeId");
+            return RedirectToAction("/identity/account/Login");
+        }
+
     }
 }

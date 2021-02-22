@@ -30,10 +30,11 @@ $(function () {
                     $("#notificationCount").popover('hide');
                 }
 
-                var notifications = result.userNotification;
-                notifications.forEach(element => {
-                    res = res + "<li class='list-group-item notification-text' data-id='" + element.notification.id + "'>" + element.notification.text + "</li>";
-                });
+                //var notifications = result.userNotification;
+                //notifications.forEach(element => {
+                //    res = res + "<li class='list-group-item notification-text' data-id='" + element.notification.id + "'>" + element.notification.text + "</li>";
+                //});
+               res = res + "<li class='list-group-item notification-text'>New Activity Is Assigned</li>";
 
                 res = res + "</ul>";
 

@@ -52,6 +52,9 @@ namespace WorkOrderApplication
             services.AddTransient<IActivityService, ActivityService>();
             services.AddTransient<IEmployeeService, EmployeeService>();
             services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IAttachmentsService, AttachmentsService>();
+
+            
             services.AddSignalR();
             services.AddCors(options =>
             {

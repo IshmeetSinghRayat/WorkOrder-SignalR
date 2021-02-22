@@ -1,0 +1,39 @@
+﻿@model List<WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctionsLobs>
+
+@{
+    ViewData["Title"] = "ShowAttachment";
+    Layout = "/Views/Shared/_ClientLayout.csHtml";
+}
+
+<div class="row">
+    <h2>Show Attachments</h2>
+
+    <div class="col-xs-12 col-md-12">
+        <a class="btn btn-warning" asp-action="Index" style="float:right">Back</a>
+    </div>
+</div>
+<hr />
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.DocumentDescription
+                </td>
+                <td>
+                    <a asp-action="ViewDocument" asp-route-Id="@item.Id" class="btn btn-warning" target="_blank">View</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
