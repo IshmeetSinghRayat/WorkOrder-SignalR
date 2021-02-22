@@ -26,7 +26,7 @@ namespace WorkOrderCore.Services
 
         public async Task<List<JobActivities>> GetAllActivities()
         {
-            var activities = await _context.JobActivities.ToListAsync();
+            var activities = await _context.JobActivities.Include(v=>v.BuninessUnit).ToListAsync();
             return activities.ToList();
         }
         public async Task<List<JobActivities>> GetJobActivities(int jobCardId)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using WorkOrderCore.Infrastructure.Persistence.DataContext;
+using WorkOrderCore.Model;
 
 namespace WorkOrderCore.Services
 {
@@ -23,7 +24,7 @@ namespace WorkOrderCore.Services
 
         public async Task<List<JobCards>> GetAllJobCards()
         {
-            return await _context.JobCards.ToListAsync();
+            return await _context.JobCards.Include(c=>c.BuninessUnit).ToListAsync();
         }
 
         public async Task<bool> AddJobCard(JobCards model)

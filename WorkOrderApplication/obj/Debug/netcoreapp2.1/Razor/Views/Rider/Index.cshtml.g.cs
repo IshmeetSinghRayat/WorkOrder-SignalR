@@ -158,7 +158,7 @@ using Microsoft.AspNetCore.Http;
             WriteLiteral("\r\n\r\n        </div>\r\n    </div>\r\n    <br />\r\n    <div class=\"row\" style=\"margin:1px\">\r\n        <div class=\"col-md-4 col-sm-4 col-xs-4 list-group\">\r\n            ");
             EndContext();
             BeginContext(1765, 166, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "757a3d263754488f8cba292587ac0bdb", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0c53b99f83a042979fa3b2efa14b1101", async() => {
                 BeginContext(1899, 28, true);
                 WriteLiteral("<i class=\"fa fa-wrench\"></i>");
                 EndContext();
@@ -194,7 +194,7 @@ using Microsoft.AspNetCore.Http;
             WriteLiteral("\r\n        </div>\r\n        <div class=\"col-md-4 col-sm-4 col-xs-4 list-group\">\r\n            ");
             EndContext();
             BeginContext(2022, 193, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e877651c48664244945f60c7e6e527d6", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5475572a4960400b9b53cab330849f2b", async() => {
                 BeginContext(2163, 48, true);
                 WriteLiteral("<i class=\"fa fa-upload\" aria-hidden=\"true\"></i> ");
                 EndContext();
@@ -230,7 +230,7 @@ using Microsoft.AspNetCore.Http;
             WriteLiteral("\r\n        </div>\r\n        <div class=\"col-md-4 col-sm-4 col-xs-4 list-group\">\r\n            ");
             EndContext();
             BeginContext(2306, 179, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5993dd16a3014d269fb2e6a080b13cba", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "806c8b466bfc4b0c920b504062af174c", async() => {
                 BeginContext(2449, 32, true);
                 WriteLiteral("<i class=\"fa fa-low-vision\"></i>");
                 EndContext();
