@@ -97,6 +97,8 @@ namespace WorkOrderCore.Services
                                             EmployeeId = a.Id,
                                             UserId = b.Id,
                                             FullName = b.Firstname + " " + b.LastName,
+                                            LastName = b.LastName,
+                                            Firstname = b.Firstname,
                                             EmployeeType = a.EmployeeType,
                                             NationalityId = a.NationalityId,
                                             JoiningDate = a.JoiningDate,

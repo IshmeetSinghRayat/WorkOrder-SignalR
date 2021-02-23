@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -12,6 +13,7 @@ using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Controllers
 {
+    [Authorize]
     public class JobCardsController : Controller
     {
         private readonly IJobCardService _jobCardService;
@@ -56,6 +58,7 @@ namespace WorkOrderApplication.Controllers
 
         // POST: JobCardsController/Create
         [HttpPost]
+   
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateJobCardViewModel details)
         {

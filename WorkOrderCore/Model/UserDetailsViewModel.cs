@@ -9,6 +9,10 @@ namespace WorkOrderCore.Model
         public int EmployeeId { get; set; }
         public string UserId { get; set; }
         public string FullName { get; set; }
+        public string Firstname { get; set; }
+
+        public string LastName { get; set; }
+
         public short EmployeeType { get; set; }
         public string NationalityId { get; set; }
         public DateTime? JoiningDate { get; set; }

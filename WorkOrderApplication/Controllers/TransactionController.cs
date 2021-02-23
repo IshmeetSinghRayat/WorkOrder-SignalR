@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.SignalR;
@@ -12,6 +13,7 @@ using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Controllers
 {
+    [Authorize]
     public class TransactionController : Controller
     {
         private readonly ITransactionService _transactionService;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -12,6 +13,7 @@ using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Controllers
 {
+    [Authorize]
     public class RiderController : Controller
     {
         private readonly ITransactionService _transactionService;
@@ -32,6 +34,7 @@ namespace WorkOrderApplication.Controllers
         // GET: RiderController
         public async Task<ActionResult> Index()
         {
+            var ss = User.Claims;
             return View(await _transactionService.GetEmployeeTransactions());
         }
 

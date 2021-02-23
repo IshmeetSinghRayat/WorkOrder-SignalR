@@ -35,7 +35,11 @@
                         <span class="badge notification-count" id="notificationCount" data-toggle="popover" title="Notifications" style="background-color:red"></span>
                     </li>
                 </ul>
-                <a class="customTopButton" asp-controller="" asp-action="">LogOut</a>
+                <ul class="nav navbar-nav customTopButton">
+                    <li class="" style="color:white; margin-right: 24px;">@Context.Session.GetString("EmailId")</li>
+                    <a class="badge badge-danger" asp-controller="" asp-action="">LogOut</a>
+                </ul>
+
 
             </div>
         </div>

@@ -51,3 +51,5 @@ C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\bin\Debug\netcoreapp2.
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Rider\AddAttachment.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Rider\ShowAttachment.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_ClientLayout.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Areas\Identity\Pages\Account\AccessDenied.cshtml.g.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp2.1\Razor\Views\Shared\_LoginPartial.cshtml.g.cs

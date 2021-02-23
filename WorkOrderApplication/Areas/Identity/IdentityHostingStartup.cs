@@ -21,6 +21,7 @@ namespace WorkOrderApplication.Areas.Identity
                         context.Configuration.GetConnectionString("UsingIdentityContextConnection")));
 
                 services.AddDefaultIdentity<IdentityLoginProjectUser>()
+                                .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<IdentityLoginProjectContext>();
             });
         }

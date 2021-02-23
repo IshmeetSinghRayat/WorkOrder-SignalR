@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using WorkOrderCore.Services;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace WorkOrderApplication.Areas.Identity.Pages.Account
 {
@@ -21,12 +22,17 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityLoginProjectUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IEmployeeService _employeeService;
+        private readonly UserManager<IdentityLoginProjectUser> _userManager;
 
-        public LoginModel(SignInManager<IdentityLoginProjectUser> signInManager, ILogger<LoginModel> logger, IEmployeeService employeeService)
+        public LoginModel(SignInManager<IdentityLoginProjectUser> signInManager,
+            ILogger<LoginModel> logger,
+            IEmployeeService employeeService,
+            UserManager<IdentityLoginProjectUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
             _employeeService = employeeService;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -89,8 +95,29 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
                     HttpContext.Session.SetString("LoginUserid", employeeDetails.UserId);
                     HttpContext.Session.SetString("EmployeeId", employeeDetails.EmployeeId.ToString());
+                    HttpContext.Session.SetString("EmailId", Input.Email.ToString());
 
-                    if (employeeDetails.EmployeeType == 1)
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    var roles = await _userManager.GetRolesAsync(user);
+                    if (user != null)
+                    {
+                        var userClaims = new List<Claim>()
+                    {
+                        new Claim("UserName", user.UserName),
+                        new Claim(ClaimTypes.Name, user.Firstname),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, roles.FirstOrDefault())
+                    };
+
+                        var userIdentity = new ClaimsIdentity(userClaims, "User Identity");
+
+                        var userPrincipal = new ClaimsPrincipal(new[] { userIdentity });
+                        //HttpContext.User = userPrincipal;
+                        await HttpContext.SignInAsync(userPrincipal);
+                    }
+
+                    if (roles.Where(c => roles.Contains("Employee")).Any())
                     {
                         return RedirectToAction("index", "Rider");
                     }

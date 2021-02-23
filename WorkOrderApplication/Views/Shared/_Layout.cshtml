@@ -30,14 +30,18 @@
                 <a asp-area="" asp-controller="JobCards" asp-action="Index" class="navbar-brand" style="font-size: 32px;">Work Order <span style="font-size: 13px;">Admin</span></a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav" style="float:right">
+                <ul class="nav navbar-nav">
                     @*<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>*@
                     <li><a asp-area="" asp-controller="JobCards" asp-action="Index">Job Cards</a></li>
                     <li><a asp-area="" asp-controller="Activity" asp-action="Index">Job Activity</a></li>
                     <li><a asp-area="" asp-controller="Transaction" asp-action="Index">Job Transaction</a></li>
-       
-                </ul>
 
+                </ul>
+                <ul class="nav navbar-nav customTopButton">
+                    <li class="" style="color:white; margin-right: 24px;">@Context.Session.GetString("EmailId")</li>
+                    <a class="badge badge-danger" asp-controller="" asp-action="">LogOut</a>
+                </ul>
+             
             </div>
         </div>
     </nav>
