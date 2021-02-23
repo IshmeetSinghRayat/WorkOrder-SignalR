@@ -7,7 +7,6 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
     {
         public Employee()
         {
-            AssignTransaction = new HashSet<AssignTransaction>();
             EmployeeOccupancy = new HashSet<EmployeeOccupancy>();
             JobCardsTranasctions = new HashSet<JobCardsTranasctions>();
         }
@@ -24,7 +23,6 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        public ICollection<AssignTransaction> AssignTransaction { get; set; }
         public ICollection<EmployeeOccupancy> EmployeeOccupancy { get; set; }
         public ICollection<JobCardsTranasctions> JobCardsTranasctions { get; set; }
     }

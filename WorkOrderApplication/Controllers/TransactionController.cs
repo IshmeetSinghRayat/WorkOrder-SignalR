@@ -81,6 +81,20 @@ namespace WorkOrderApplication.Controllers
         {
             try
             {
+                var result = _transactionService.AddTransaction(model.TransactionDetails);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: AssignActivityController/Edit/5
+        public async Task<ActionResult> Edit(TransactionViewModel model)
+        {
+            try
+            {
                 if (await _transactionService.CheckDuplicatePrioritySequence(model.TransactionDetails.JobCardId, model.TransactionDetails.PrioritySequence.Value))
                 {
                     return View();
@@ -92,12 +106,6 @@ namespace WorkOrderApplication.Controllers
             {
                 return View();
             }
-        }
-
-        // GET: AssignActivityController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
         }
 
         // POST: AssignActivityController/Edit/5

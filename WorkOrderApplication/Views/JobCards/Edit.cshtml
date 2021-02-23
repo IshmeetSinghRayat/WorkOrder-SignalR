@@ -1,0 +1,71 @@
+﻿@model WorkOrderCore.Infrastructure.Persistence.DataContext.JobCards
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>JobCards</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="BuninessUnitId" class="control-label"></label>
+                <select asp-for="BuninessUnitId" class="form-control" asp-items="ViewBag.BuninessUnitId"></select>
+                <span asp-validation-for="BuninessUnitId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobDescription" class="control-label"></label>
+                <input asp-for="JobDescription" class="form-control" />
+                <span asp-validation-for="JobDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobDuration" class="control-label"></label>
+                <input asp-for="JobDuration" class="form-control" />
+                <span asp-validation-for="JobDuration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobStatus" class="control-label"></label>
+                <input asp-for="JobStatus" class="form-control" />
+                <span asp-validation-for="JobStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobCardsRemarks" class="control-label"></label>
+                <input asp-for="JobCardsRemarks" class="form-control" />
+                <span asp-validation-for="JobCardsRemarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreationDate" class="control-label"></label>
+                <input asp-for="CreationDate" class="form-control" />
+                <span asp-validation-for="CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <input asp-for="CreatedBy" class="form-control" />
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpdatedDate" class="control-label"></label>
+                <input asp-for="UpdatedDate" class="form-control" />
+                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UpdatedBy" class="control-label"></label>
+                <input asp-for="UpdatedBy" class="form-control" />
+                <span asp-validation-for="UpdatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

@@ -47,12 +47,11 @@
                     @Html.DisplayFor(modelItem => item.JobStatus)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreationDate)
+                    @item.CreationDate.ToString("dddd, dd MMMM yyyy")
                 </td>
                 <td>
                     <a class="btn btn-success" asp-action="Edit">Edit</a>
-                    <a asp-controller="Details" asp-action="Index" class="btn btn-warning">Details</a>
-                    <a class="btn btn-danger" asp-action="Delete">Delete</a>
+                    @*<a class="btn btn-danger" asp-action="Delete">Delete</a>*@
                 </td>
             </tr>
         }

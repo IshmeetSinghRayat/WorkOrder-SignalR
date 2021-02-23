@@ -73,7 +73,7 @@ using Microsoft.AspNetCore.Http;
             WriteLiteral("\r\n<div class=\"row\">\r\n    <h2>Show Attachments</h2>\r\n\r\n    <div class=\"col-xs-12 col-md-12\">\r\n        ");
             EndContext();
             BeginContext(297, 74, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4d09c8b4c99f47be87ab2226769cca54", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d39e38ff253046ae815ee5aee873254e", async() => {
                 BeginContext(363, 4, true);
                 WriteLiteral("Back");
                 EndContext();
@@ -116,7 +116,7 @@ using Microsoft.AspNetCore.Http;
             WriteLiteral("\r\n                </td>\r\n                <td>\r\n                    ");
             EndContext();
             BeginContext(783, 101, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e51ed0d9a6ae4e8f8883fedc0aa1716a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "68694a797d00464abb8159cedf96445f", async() => {
                 BeginContext(876, 4, true);
                 WriteLiteral("View");
                 EndContext();

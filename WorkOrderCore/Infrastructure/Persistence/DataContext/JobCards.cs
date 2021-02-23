@@ -11,6 +11,7 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         }
 
         public int Id { get; set; }
+        public string JobNumber { get; set; }
         public int? BuninessUnitId { get; set; }
         public string JobDescription { get; set; }
         public short? JobDuration { get; set; }

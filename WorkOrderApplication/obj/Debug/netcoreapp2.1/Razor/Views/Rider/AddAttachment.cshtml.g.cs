@@ -74,7 +74,7 @@ using Microsoft.AspNetCore.Http;
             WriteLiteral("<div class=\"row\">\r\n    <h2>Add Attachment</h2>\r\n\r\n    <div class=\"col-xs-12 col-md-4\">\r\n        ");
             EndContext();
             BeginContext(198, 74, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "70beeb41d1754442a9daee11f6753f72", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cc1e2cd0d269416b8b055d4792f59f9f", async() => {
                 BeginContext(264, 4, true);
                 WriteLiteral("Back");
                 EndContext();
@@ -98,7 +98,7 @@ using Microsoft.AspNetCore.Http;
             WriteLiteral("\r\n    </div>\r\n</div>\r\n<hr />\r\n<div class=\"row\">\r\n    <div class=\"col-xs-12 col-md-4\">\r\n        ");
             EndContext();
             BeginContext(367, 554, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "afe79cd3cacb43a695e4f84cb7d9a26c", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c96268ad210a49068f2938db45655b3c", async() => {
                 BeginContext(482, 55, true);
                 WriteLiteral("\r\n            <input type=\"hidden\" name=\"transactionId\"");
                 EndContext();

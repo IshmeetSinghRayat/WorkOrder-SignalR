@@ -26,11 +26,8 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public DateTime? UpdatedDate { get; set; }
 
         public Employee Employee { get; set; }
-        public JobCardsTranasctions IdNavigation { get; set; }
         public JobActivities JobActivity { get; set; }
         public JobCards JobCard { get; set; }
-        public AssignTransaction AssignTransaction { get; set; }
-        public JobCardsTranasctions InverseIdNavigation { get; set; }
         public ICollection<JobCardsTranasctionsLobs> JobCardsTranasctionsLobs { get; set; }
     }
 }

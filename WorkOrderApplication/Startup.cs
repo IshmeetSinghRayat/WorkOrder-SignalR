@@ -46,7 +46,14 @@ namespace WorkOrderApplication
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddDbContext<WorkOrderDBContext>(item => item.UseSqlServer(Configuration.GetConnectionString("UsingIdentityContextConnection")));
+            services.AddDbContext<WorkOrderDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("UsingIdentityContextConnection"),
+                          sqlServerOptionsAction: sqlOptions =>
+                          {
+                              sqlOptions.EnableRetryOnFailure();
+                          });
+            });
             services.AddTransient<IJobCardService, JobCardService>();
             services.AddTransient<ILookupService, LookupService>();
             services.AddTransient<IActivityService, ActivityService>();

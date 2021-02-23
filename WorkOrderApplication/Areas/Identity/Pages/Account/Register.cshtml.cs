@@ -92,6 +92,20 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    var assignRole = await _userManager.AddToRoleAsync(user, Input.EmployeeType);
+                    short empType = 0;
+                    if (Input.EmployeeType == "Admin")
+                    {
+                        empType = 1;
+                    }
+                    else
+                    {
+                        empType = 2;
+
+                    }
+                    var EmployeeCreation = _employee.AddEmployee(user.Id, empType);
+
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -103,7 +117,6 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-                    var EmployeeCreation = _employee.AddEmployee(user.Id, Convert.ToInt16(Input.EmployeeType));
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
                 }
