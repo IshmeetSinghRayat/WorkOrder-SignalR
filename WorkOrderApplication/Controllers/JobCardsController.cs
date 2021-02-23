@@ -13,7 +13,6 @@ using WorkOrderCore.Services;
 
 namespace WorkOrderApplication.Controllers
 {
-    [Authorize]
     public class JobCardsController : Controller
     {
         private readonly IJobCardService _jobCardService;

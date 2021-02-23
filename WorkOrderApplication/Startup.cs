@@ -63,20 +63,13 @@ namespace WorkOrderApplication
 
             
             services.AddSignalR();
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder.AllowAnyOrigin()
-                        .AllowCredentials();
-                });
+            services.AddCors(options => {
+                options.AddPolicy("mypolicy", builder => builder
+                 .AllowAnyOrigin()
+                 .SetIsOriginAllowed((host) => true)
+                 .AllowAnyMethod()
+                 .AllowAnyHeader());
             });
-            services.AddMvc()
-                               .AddRazorPagesOptions(options =>
-                               {
-                                   options.Conventions.AddPageRoute("/identity/account/Login", "");
-                               });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,17 +90,20 @@ namespace WorkOrderApplication
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
-            app.UseAuthentication();
-            app.UseSignalR(route => {
-                route.MapHub<SignalServer>("/signalServer");
-            });
+            app.UseAuthentication(); 
+            app.UseRouting(); 
             app.UseCors();
 
-            app.UseMvc(routes =>
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Account}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
+                endpoints.MapHub<SignalServer>("/signalServer");
+
             });
         }
     }
