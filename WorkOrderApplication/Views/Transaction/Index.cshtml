@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                Assigned Employee
+                Job Name
             </th>
             <th>
                 Transaction Start Date
@@ -29,6 +29,9 @@
                 Transaction Close At
             </th>
             <th>
+                Assigned Employee
+            </th>
+            <th>
                 Priority
             </th>
             <th></th>
@@ -39,7 +42,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeFullName)
+                    @item.JobName
                 </td>
                 <td>
                     @item.JobCardsTransactionsStartDate.ToString("dddd, dd MMMM yyyy")
@@ -55,6 +58,9 @@
                     {
                         @item.JobCardsTransactionsClosedAt.Value.ToString("dddd, dd MMMM yyyy")
                     }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeFullName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PrioritySequence)

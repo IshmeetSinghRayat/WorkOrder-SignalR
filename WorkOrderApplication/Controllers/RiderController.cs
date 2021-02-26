@@ -160,5 +160,11 @@ namespace WorkOrderApplication.Controllers
             }
             return View();
         }
+
+        public async Task<ActionResult> ShowDetails(short transactionId)
+        {
+            var result = await _transactionService.GetAllTransactions();
+            return View(result.Where(c=>c.Id == transactionId).FirstOrDefault());
+        }
     }
 }

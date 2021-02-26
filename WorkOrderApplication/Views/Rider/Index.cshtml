@@ -39,6 +39,9 @@
     .btnSettingsAttachments {
         background-color: #b5b5b5
     }
+    .btnShowDetails {
+        background-color: #ecc91e
+    }
 </style>
 <div class="row">
     <h2>My Activities</h2>
@@ -56,35 +59,39 @@
             <legend class="scheduler-border">
                 @item.JobNumber - @item.ActivityName
             </legend>
+            <span style="float: right;">
+                @item.JobCardsTransactionsStatus
+            </span>
             <div class="row" style="margin:1px">
                 <div class="col-md-6 col-xs-6 rightBorderSolid">
                     <label>Start Date</label>
                     <br />
                     @item.JobCardsTransactionsStartDate.ToString("dddd, dd MMMM yyyy")
-
                 </div>
                 <div class="col-md-6 col-xs-6">
                     <label>End Date</label>
                     <br />
                     @item.JobCardsTransactionsEndDate.ToString("dddd, dd MMMM yyyy")
-
                 </div>
             </div>
             <br />
-            @if (item.EmployeeTransactionStatus == "Active")
-            {
-                <div class="row" style="margin:1px">
-                    <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+            <div class="row" style="margin:1px">
+                @if (item.EmployeeTransactionStatus == "Active")
+                {
+                    <div class="col-md-3 col-sm-3 col-xs-3 list-group">
                         <a asp-action="ChangeStatus" asp-route-Id="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnSettingsAttachments"><i class="fa fa-wrench"></i></a>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+                    <div class="col-md-3 col-sm-3 col-xs-3 list-group">
                         <a asp-action="AddAttachment" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnAddAttachments"><i class="fa fa-upload" aria-hidden="true"></i> </a>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+                    <div class="col-md-3 col-sm-3 col-xs-3 list-group">
                         <a asp-action="ShowAttachment" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnShowAttachments"><i class="fa fa-low-vision"></i></a>
                     </div>
+                }
+                <div class="col-md-3 col-sm-3 col-xs-3 list-group">
+                    <a asp-action="ShowDetails" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnShowDetails"><i class="fa fa-low-vision"></i></a>
                 </div>
-            }
+            </div>
         </fieldset>
     }
 }

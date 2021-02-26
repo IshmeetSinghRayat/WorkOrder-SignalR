@@ -15,6 +15,10 @@ namespace WorkOrderCore.Infrastructure.Helpers
         {
             Admin
         }
+        public enum StatusTypes
+        {
+            Close
+        }
     }
   
 }

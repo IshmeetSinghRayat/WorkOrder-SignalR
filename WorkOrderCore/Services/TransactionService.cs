@@ -42,6 +42,7 @@ namespace WorkOrderCore.Services
                                           Id = a.Id,
                                           JobCardId = a.JobCardId,
                                           JobNumber = e.JobNumber,
+                                          JobName = e.JobDescription,
                                           JobActivityId = a.JobActivityId,
                                           EmployeeId = a.EmployeeId,
                                           ActivityName = d.JobActivityDescriptioin,
@@ -56,9 +57,9 @@ namespace WorkOrderCore.Services
                                           UpdatedBy = a.UpdatedBy,
                                           CreatedDate = a.CreatedDate,
                                           UpdatedDate = a.UpdatedDate,
-                                      }).OrderByDescending(x => x.CreatedDate).ToListAsync();
-
-
+                                      })
+                                      .OrderByDescending(x => x.CreatedDate)
+                                      .ToListAsync();
             return transactions;
         }
         public async Task<List<JobcardTransactionsViewModel>> GetEmployeeTransactions()
@@ -135,7 +136,9 @@ namespace WorkOrderCore.Services
 
         private async Task<JobCardsTransactions> GetTransactionPriority(int jobCardId)
         {
-             return await _context.JobCardsTransactions.Where(c => c.JobCardId == jobCardId).OrderByDescending(c => c.CreatedDate).FirstOrDefaultAsync();
+             return await _context.JobCardsTransactions
+                .Where(c => c.JobCardId == jobCardId && c.JobCardsTransactionsStatus != "Close")
+                .OrderByDescending(c => c.CreatedDate).FirstOrDefaultAsync();
         }
 
         public async Task<JobCardsTransactions> EditTransaction(JobCardsTransactions model)

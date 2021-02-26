@@ -1,0 +1,55 @@
+﻿@model WorkOrderCore.Model.JobcardTransactionsViewModel
+
+@{
+    ViewData["Title"] = "ShowDetails";
+}
+
+<h2>ShowDetails</h2>
+
+<div class="row">
+    <div class="col-lg-6 col-xs-6">
+    </div>
+    <div class="col-lg-6 col-xs-6">
+        <a class="btn btn-warning" asp-action="Index" style="float:right">Back to List</a>
+    </div>
+    <hr />
+    <div class="col-lg-6 col-xs-6">
+        <label>
+            Job Number
+        </label>
+        <br />
+        <span>
+            @Model.JobNumber
+        </span>
+    </div>
+    <div class="col-lg-6 col-xs-6">
+        <label>
+            Job Name
+        </label>
+        <br />
+
+        <span>
+            @Model.JobName
+        </span>
+    </div>
+    <div class="col-lg-6 col-xs-6">
+        <label>
+            Activity Name
+        </label>       
+        <br />
+
+        <span>
+            @Model.ActivityName
+        </span>
+    </div>
+    <div class="col-lg-6 col-xs-6">
+        <label>
+            Transactions Remark
+        </label>     
+        <br />
+
+        <span>
+            @Model.JobCardsTransactionsRemarks
+        </span>
+    </div>
+</div>
