@@ -116,6 +116,8 @@ namespace WorkOrderApplication.Areas.Identity.Pages.Account
                         //HttpContext.User = userPrincipal;
                         await HttpContext.SignInAsync(userPrincipal);
                     }
+                    HttpContext.Session.SetString("Role", roles.FirstOrDefault());
+
                     if (roles.Where(c => roles.Contains("Employee")).Any())
                     {
                         return RedirectToAction("index", "Rider");

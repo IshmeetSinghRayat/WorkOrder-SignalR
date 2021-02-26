@@ -26,6 +26,10 @@ namespace WorkOrderApplication.Controllers
         // GET: JobCardsController
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             ViewBag.businessUnitsList = await _lookupService.GetBusinessUnits();
             return View(await _jobCardService.GetAllJobCards());
         }
@@ -33,6 +37,10 @@ namespace WorkOrderApplication.Controllers
         // GET: JobCardsController/Details/5
         public ActionResult Details(int id)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             return View();
         }
 

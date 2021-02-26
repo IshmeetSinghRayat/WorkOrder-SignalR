@@ -35,6 +35,10 @@ namespace WorkOrderApplication.Controllers
         // GET: RiderController
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Role") != "Employee")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             var ss = User.Claims;
             return View(await _transactionService.GetEmployeeTransactions());
         }
@@ -42,12 +46,20 @@ namespace WorkOrderApplication.Controllers
         // GET: RiderController/Details/5
         public ActionResult Details(int id)
         {
+            if (HttpContext.Session.GetString("Role") != "Employee")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             return View();
         }
 
         // GET: RiderController/Create
         public async Task<ActionResult> ChangeStatus(short Id)
         {
+            if (HttpContext.Session.GetString("Role") != "Employee")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             var transactionDetails = await _transactionService.GetTransactionByTransactionId(Id);
             ViewBag.currentStatus = transactionDetails.JobCardsTransactionsStatus;
             ViewBag.TransactionId = Id;
@@ -121,6 +133,10 @@ namespace WorkOrderApplication.Controllers
 
         public async Task<ActionResult> ShowAttachment(short transactionId)
         {
+            if (HttpContext.Session.GetString("Role") != "Employee")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             return View(await _attachmentsService.GetAttachmentsByTransactionId(transactionId));
         }
 
@@ -152,7 +168,12 @@ namespace WorkOrderApplication.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ViewDocument(short id) {
+        public async Task<IActionResult> ViewDocument(short id)
+        {
+            if (HttpContext.Session.GetString("Role") != "Employee")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             if (id != 0)
             {
                 JobCardsTransactionsLobs obj = await _attachmentsService.GetAttachmentById(id);
@@ -163,6 +184,10 @@ namespace WorkOrderApplication.Controllers
 
         public async Task<ActionResult> ShowDetails(short transactionId)
         {
+            if (HttpContext.Session.GetString("Role") != "Employee")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             var result = await _transactionService.GetAllTransactions();
             return View(result.Where(c=>c.Id == transactionId).FirstOrDefault());
         }

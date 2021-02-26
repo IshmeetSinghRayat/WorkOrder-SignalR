@@ -20,7 +20,12 @@ namespace WorkOrderApplication.Controllers
             HttpContext.Session.Remove("LoginUserid");
             HttpContext.Session.Remove("EmployeeId");
             HttpContext.Session.Remove("EmailId");
+            HttpContext.Session.Remove("Role");
             return RedirectToAction("/identity/account/Login");
+        }
+        public IActionResult UnAuthorized()
+        {
+            return View();
         }
 
     }

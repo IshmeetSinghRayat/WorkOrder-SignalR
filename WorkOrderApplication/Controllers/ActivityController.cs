@@ -32,8 +32,10 @@ namespace WorkOrderApplication.Controllers
         // GET: ActivityController
         public async Task<ActionResult> Index()
         {
-            var cc = HttpContext.Session.GetString("UserId");
-            var ccdds = HttpContext.Session.GetString("EmployeeId");
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthorized","Account");
+            }
             ViewBag.businessUnitsList = await _lookupService.GetBusinessUnits();
             var ActivityList = await _activityService.GetAllActivities();
             return View(ActivityList);

@@ -41,12 +41,20 @@ namespace WorkOrderApplication.Controllers
         // GET: AssignActivityController
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             return View(await _transactionService.GetAllTransactions());
         }
 
         // GET: AssignActivityController/Details/5
         public ActionResult Details(int id)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             return View();
         }
 
@@ -99,6 +107,10 @@ namespace WorkOrderApplication.Controllers
         // GET: AssignActivityController/Edit/5
         public async Task<ActionResult> Edit(TransactionViewModel model)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthorized", "Account");
+            }
             try
             {
                 if (await _transactionService.CheckDuplicatePrioritySequence(model.TransactionDetails.JobCardId, model.TransactionDetails.PrioritySequence.Value))
