@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
 namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 {
     public partial class Employee
@@ -8,7 +12,7 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public Employee()
         {
             EmployeeOccupancy = new HashSet<EmployeeOccupancy>();
-            JobCardsTranasctions = new HashSet<JobCardsTranasctions>();
+            JobCardsTransactions = new HashSet<JobCardsTransactions>();
         }
 
         public int Id { get; set; }
@@ -23,7 +27,7 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        public ICollection<EmployeeOccupancy> EmployeeOccupancy { get; set; }
-        public ICollection<JobCardsTranasctions> JobCardsTranasctions { get; set; }
+        public virtual ICollection<EmployeeOccupancy> EmployeeOccupancy { get; set; }
+        public virtual ICollection<JobCardsTransactions> JobCardsTransactions { get; set; }
     }
 }

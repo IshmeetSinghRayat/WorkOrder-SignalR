@@ -14,6 +14,6 @@ namespace WorkOrderApplication.Models
         public List<SelectListItem> EmployeesDD { get; set; }
         public List<SelectListItem> StatusDD { get; set; }
 
-        public JobCardsTranasctions TransactionDetails { get; set; }
+        public JobCardsTransactions TransactionDetails { get; set; }
     }
 }

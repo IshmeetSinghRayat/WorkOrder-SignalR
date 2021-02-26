@@ -14,7 +14,6 @@
     </div>
 </div>
 <hr />
-
     <div class="row">
         <div class="col-md-4">
             <div class="list-group">
@@ -39,17 +38,11 @@
     function TakeAction(value, transactionId) {
         $(".list-group a.active").removeClass('active');
         $("#" + value).addClass("active");
-        var model = {
-            Id: transactionId,
-            JobCardsTranasctionsStatus: value
-        };
         var URL = '@Url.Action("ChangeTransactionStatus", "Rider")';
         $.ajax({
             type: "POST",
             url: URL,
-            data: JSON.stringify(model),
-            dataType: 'JSON',
-            contentType: "application/json",
+            data: { id: transactionId, status: value},
             success: function () {
                 window.location.href = '@Url.Action("Index", "Rider")';
             },

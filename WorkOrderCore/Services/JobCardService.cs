@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkOrderCore.Infrastructure.Persistence.DataContext;
@@ -24,7 +25,7 @@ namespace WorkOrderCore.Services
 
         public async Task<List<JobCards>> GetAllJobCards()
         {
-            return await _context.JobCards.Include(c=>c.BuninessUnit).ToListAsync();
+            return await _context.JobCards.OrderByDescending(x=>x.CreationDate).Include(c=>c.BuninessUnit).ToListAsync();
         }
 
         public async Task<bool> AddJobCard(JobCards model)
@@ -33,7 +34,8 @@ namespace WorkOrderCore.Services
             {
                 model.CreationDate = DateTime.Now;
                 model.UpdatedDate = DateTime.Now;
-                model.CreatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249";
+                model.CreatedBy = LoginUserid;
+                model.JobNumber = model.JobNumber + "-" + DateTime.Now.ToString("yy");
                 _context.JobCards.Add(model);
                 _context.SaveChanges();
                 return true;

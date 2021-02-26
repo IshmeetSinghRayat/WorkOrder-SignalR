@@ -3,6 +3,18 @@
 @{
     ViewData["Title"] = "Create";
 }
+<style>
+    .customPostFixDiv {
+        border: 1px solid gray;
+        border-radius: 6px;
+        padding-top: 6px;
+        padding-right: 6px;
+        padding-left: 6px;
+        color: white;
+        background-color: gray;
+    }
+</style>
+
 
 <h2>Create Job Card</h2>
 
@@ -20,8 +32,20 @@
         <input type="hidden" asp-for="JobCardDetails.CreatedBy" />
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <label class="control-label">Job Number</label>
 
-        <div class="col-lg-6">
+                <div style="display:flex;">
+                    <input type="text" asp-for="JobCardDetails.JobNumber" class="form-control" onkeypress="return isNumberKey(this, event)">
+                    <div class="customPostFixDiv">
+                        @ViewBag.CurrentYear
+                    </div>
+                </div>
+                <span asp-validation-for="JobCardDetails.JobNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-5">
             <div class="form-group">
                 <label class="control-label">Buniness Unit</label>
                 <select asp-for="JobCardDetails.BuninessUnitId" asp-items="@Model.BusinessUnitsDD" class="form-control" required>
@@ -30,7 +54,7 @@
                 <span asp-validation-for="JobCardDetails.BuninessUnitId" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="form-group">
                 <label class="control-label">Job Status</label>
                 <select asp-for="JobCardDetails.JobStatus" asp-items="@Model.StatusDD" class="form-control" required>

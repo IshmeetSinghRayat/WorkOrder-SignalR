@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using WorkOrderCore.Infrastructure.Persistence.DataContext;
 using WorkOrderCore.Model;
@@ -48,15 +49,24 @@ namespace WorkOrderApplication.Controllers
         public async Task<ActionResult> ChangeStatus(short Id)
         {
             var transactionDetails = await _transactionService.GetTransactionByTransactionId(Id);
-            ViewBag.currentStatus = transactionDetails.JobCardsTranasctionsStatus;
+            ViewBag.currentStatus = transactionDetails.JobCardsTransactionsStatus;
             ViewBag.TransactionId = Id;
-            return View(await _lookupService.GetLookups("TransactionStatus"));
+            var Data = await _lookupService.GetLookups("TransactionStatus");
+            return View(Data.Where(c=>c.Alias != "Cancel").ToList());
         }
 
-        // POST: RiderController/Create
         [HttpPost]
-        public async Task<ActionResult> ChangeTransactionStatus([FromBody] RiderChangeStatusViewModel model)
+        public async Task<IActionResult> ChangeTransactionStatus(short id, string status)
         {
+            if (id == 0)
+            {
+                return View();
+            }
+            RiderChangeStatusViewModel model = new RiderChangeStatusViewModel
+            {
+                Id = id,
+                JobCardsTransactionsStatus = status
+            };
             bool success = false;
             string message = "";
             try
@@ -83,15 +93,15 @@ namespace WorkOrderApplication.Controllers
         [HttpPost]
         public async Task<ActionResult> AddAttachment(List<IFormFile> files, short transactionId, string description)
         {
-            List<JobCardsTranasctionsLobs> model = new List<JobCardsTranasctionsLobs>();
+            List<JobCardsTransactionsLobs> model = new List<JobCardsTransactionsLobs>();
             foreach (var file in files)
             {
-                JobCardsTranasctionsLobs obj = new JobCardsTranasctionsLobs();
+                JobCardsTransactionsLobs obj = new JobCardsTransactionsLobs();
                 using (var stream = new MemoryStream())
                 {
                     await file.CopyToAsync(stream);
                     obj.Lobdata = stream.ToArray();
-                    obj.JobCardsTranasctionsId = transactionId;
+                    obj.JobCardsTransactionsId = transactionId;
                     obj.DocumentDescription = description;
                     obj.CreatedDate = DateTime.Now;
                     obj.FileType = file.ContentType;
@@ -117,15 +127,15 @@ namespace WorkOrderApplication.Controllers
         [HttpPost]
         public async Task<ActionResult> ShowAttachment(List<IFormFile> files, short transactionId, string description)
         {
-            List<JobCardsTranasctionsLobs> model = new List<JobCardsTranasctionsLobs>();
+            List<JobCardsTransactionsLobs> model = new List<JobCardsTransactionsLobs>();
             foreach (var file in files)
             {
-                JobCardsTranasctionsLobs obj = new JobCardsTranasctionsLobs();
+                JobCardsTransactionsLobs obj = new JobCardsTransactionsLobs();
                 using (var stream = new MemoryStream())
                 {
                     await file.CopyToAsync(stream);
                     obj.Lobdata = stream.ToArray();
-                    obj.JobCardsTranasctionsId = transactionId;
+                    obj.JobCardsTransactionsId = transactionId;
                     obj.DocumentDescription = description;
                     obj.CreatedDate = DateTime.Now;
                 }
@@ -145,7 +155,7 @@ namespace WorkOrderApplication.Controllers
         public async Task<IActionResult> ViewDocument(short id) {
             if (id != 0)
             {
-                JobCardsTranasctionsLobs obj = await _attachmentsService.GetAttachmentById(id);
+                JobCardsTransactionsLobs obj = await _attachmentsService.GetAttachmentById(id);
                 return File(obj.Lobdata, obj.FileType);
             }
             return View();

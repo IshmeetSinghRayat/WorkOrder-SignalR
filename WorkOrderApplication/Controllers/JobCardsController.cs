@@ -52,6 +52,7 @@ namespace WorkOrderApplication.Controllers
                     JobStatus = "Open"
                 }
             };
+            ViewBag.CurrentYear = DateTime.Now.Year;
             return View(model);
         }
 

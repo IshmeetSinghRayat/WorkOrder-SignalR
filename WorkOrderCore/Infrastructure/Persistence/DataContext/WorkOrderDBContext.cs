@@ -2,6 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
 namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 {
     public partial class WorkOrderDBContext : DbContext
@@ -20,18 +24,27 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
-        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<AssignTransaction> AssignTransaction { get; set; }
         public virtual DbSet<BusinessUnit> BusinessUnit { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<EmployeeOccupancy> EmployeeOccupancy { get; set; }
         public virtual DbSet<JobActivities> JobActivities { get; set; }
         public virtual DbSet<JobCards> JobCards { get; set; }
-        public virtual DbSet<JobCardsTranasctions> JobCardsTranasctions { get; set; }
-        public virtual DbSet<JobCardsTranasctionsLobs> JobCardsTranasctionsLobs { get; set; }
+        public virtual DbSet<JobCardsTransactions> JobCardsTransactions { get; set; }
+        public virtual DbSet<JobCardsTransactionsLobs> JobCardsTransactionsLobs { get; set; }
         public virtual DbSet<LookupMaster> LookupMaster { get; set; }
         public virtual DbSet<Lookups> Lookups { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=DESKTOP-3UG1LAV\\SQLEXPRESS;Database=WorkOrderDB;Trusted_Connection=True;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,8 +65,6 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                     .HasName("RoleNameIndex")
                     .IsUnique()
                     .HasFilter("([NormalizedName] IS NOT NULL)");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Name).HasMaxLength(256);
 
@@ -103,6 +114,19 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                     .HasForeignKey(d => d.UserId);
             });
 
+            modelBuilder.Entity<AspNetUserTokens>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
+
+                entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AspNetUserTokens)
+                    .HasForeignKey(d => d.UserId);
+            });
+
             modelBuilder.Entity<AspNetUsers>(entity =>
             {
                 entity.HasIndex(e => e.NormalizedEmail)
@@ -112,8 +136,6 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                     .HasName("UserNameIndex")
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
@@ -126,19 +148,6 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<AspNetUserTokens>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
-
-                entity.Property(e => e.LoginProvider).HasMaxLength(128);
-
-                entity.Property(e => e.Name).HasMaxLength(128);
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AspNetUserTokens)
-                    .HasForeignKey(d => d.UserId);
             });
 
             modelBuilder.Entity<AssignTransaction>(entity =>
@@ -160,7 +169,9 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 
                 entity.Property(e => e.Remarks).HasMaxLength(200);
 
-                entity.Property(e => e.Status).HasMaxLength(1);
+                entity.Property(e => e.Status)
+                    .HasMaxLength(1)
+                    .IsFixedLength();
             });
 
             modelBuilder.Entity<Employee>(entity =>
@@ -223,7 +234,9 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 
                 entity.Property(e => e.JobCardsRemarks).HasMaxLength(200);
 
-                entity.Property(e => e.JobDescription).HasMaxLength(200);
+                entity.Property(e => e.JobDescription)
+                    .HasMaxLength(200)
+                    .IsFixedLength();
 
                 entity.Property(e => e.JobNumber).HasMaxLength(500);
 
@@ -237,44 +250,44 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                     .HasConstraintName("FK_JobCards_BusinessUnit");
             });
 
-            modelBuilder.Entity<JobCardsTranasctions>(entity =>
+            modelBuilder.Entity<JobCardsTransactions>(entity =>
             {
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(450);
 
-                entity.Property(e => e.JobCardsTranasctionsEndDate).HasColumnType("date");
+                entity.Property(e => e.JobCardsTransactionsEndDate).HasColumnType("date");
 
-                entity.Property(e => e.JobCardsTranasctionsRemarks).HasMaxLength(200);
+                entity.Property(e => e.JobCardsTransactionsRemarks).HasMaxLength(200);
 
-                entity.Property(e => e.JobCardsTranasctionsStartDate).HasColumnType("date");
+                entity.Property(e => e.JobCardsTransactionsStartDate).HasColumnType("date");
 
-                entity.Property(e => e.JobCardsTranasctionsStatus).HasMaxLength(100);
+                entity.Property(e => e.JobCardsTransactionsStatus).HasMaxLength(100);
 
                 entity.Property(e => e.UpdatedBy).HasMaxLength(450);
 
                 entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.JobCardsTranasctions)
+                    .WithMany(p => p.JobCardsTransactions)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobCardsTranasctions_Employee");
 
                 entity.HasOne(d => d.JobActivity)
-                    .WithMany(p => p.JobCardsTranasctions)
+                    .WithMany(p => p.JobCardsTransactions)
                     .HasForeignKey(d => d.JobActivityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobCardsTranasctions_JobActivities");
 
                 entity.HasOne(d => d.JobCard)
-                    .WithMany(p => p.JobCardsTranasctions)
+                    .WithMany(p => p.JobCardsTransactions)
                     .HasForeignKey(d => d.JobCardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobCardsTranasctions_JobCards1");
             });
 
-            modelBuilder.Entity<JobCardsTranasctionsLobs>(entity =>
+            modelBuilder.Entity<JobCardsTransactionsLobs>(entity =>
             {
-                entity.ToTable("JobCardsTranasctionsLOBs");
+                entity.ToTable("JobCardsTransactionsLOBs");
 
                 entity.Property(e => e.DocumentDescription).HasMaxLength(200);
 
@@ -284,9 +297,9 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                     .IsRequired()
                     .HasColumnName("LOBData");
 
-                entity.HasOne(d => d.JobCardsTranasctions)
-                    .WithMany(p => p.JobCardsTranasctionsLobs)
-                    .HasForeignKey(d => d.JobCardsTranasctionsId)
+                entity.HasOne(d => d.JobCardsTransactions)
+                    .WithMany(p => p.JobCardsTransactionsLobs)
+                    .HasForeignKey(d => d.JobCardsTransactionsId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_JobCardsTranasctionsLOBs_JobCardsTranasctions");
             });
@@ -295,9 +308,7 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
             {
                 entity.HasKey(e => e.Alias);
 
-                entity.Property(e => e.Alias)
-                    .HasMaxLength(100)
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Alias).HasMaxLength(100);
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -324,6 +335,10 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Lookups_MasterLookup");
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

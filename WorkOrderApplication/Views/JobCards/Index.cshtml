@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                Job Number
+            </th>
+            <th>
                 Business Unit Name
             </th>
             <th>
@@ -33,27 +36,30 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.BuninessUnit.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JobDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JobDuration) Days
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JobStatus)
-                </td>
-                <td>
-                    @item.CreationDate.ToString("dddd, dd MMMM yyyy")
-                </td>
-                <td>
-                    <a class="btn btn-success" asp-action="Edit">Edit</a>
-                    @*<a class="btn btn-danger" asp-action="Delete">Delete</a>*@
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuninessUnit.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobDuration) Days
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobStatus)
+            </td>
+            <td>
+                @item.CreationDate.ToString("dddd, dd MMMM yyyy")
+            </td>
+            <td>
+                <a class="btn btn-success" asp-action="Edit">Edit</a>
+                @*<a class="btn btn-danger" asp-action="Delete">Delete</a>*@
+            </td>
+        </tr>
         }
     </tbody>
 </table>

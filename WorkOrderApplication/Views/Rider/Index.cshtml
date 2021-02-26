@@ -9,26 +9,33 @@
         font-weight: bold;
         font-size: 20px;
     }
+
     .marginWithFontSize {
         margin-bottom: 13px;
         font-size: 16px;
     }
+
     .rightBorderSolid {
         border-right: 1px solid darkgrey;
     }
+
     .dataStyle {
         border: 1px solid #eaeaea;
         padding: 26px;
     }
+
     .padding-14 {
         padding-bottom: 14px;
     }
+
     .btnShowAttachments {
         background-color: #c39292
     }
+
     .btnAddAttachments {
         background-color: #ffaaf2
     }
+
     .btnSettingsAttachments {
         background-color: #b5b5b5
     }
@@ -43,35 +50,41 @@
 <hr />
 @foreach (var item in Model)
 {
-<fieldset class="scheduler-border">
-    <legend class="scheduler-border">
-        @item.JobCardId - @item.ActivityName
-    </legend>
-    <div class="row" style="margin:1px">
-        <div class="col-md-6 col-xs-6 rightBorderSolid">
-            <label>Start Date</label>
-            <br />
-            @item.JobCardsTranasctionsStartDate.ToString("dddd, dd MMMM yyyy")
+    if (item.EmployeeTransactionStatus != "Finished")
+    {
+        <fieldset class="scheduler-border">
+            <legend class="scheduler-border">
+                @item.JobNumber - @item.ActivityName
+            </legend>
+            <div class="row" style="margin:1px">
+                <div class="col-md-6 col-xs-6 rightBorderSolid">
+                    <label>Start Date</label>
+                    <br />
+                    @item.JobCardsTransactionsStartDate.ToString("dddd, dd MMMM yyyy")
 
-        </div>
-        <div class="col-md-6 col-xs-6">
-            <label>End Date</label>
-            <br />
-            @item.JobCardsTranasctionsEndDate.ToString("dddd, dd MMMM yyyy")
+                </div>
+                <div class="col-md-6 col-xs-6">
+                    <label>End Date</label>
+                    <br />
+                    @item.JobCardsTransactionsEndDate.ToString("dddd, dd MMMM yyyy")
 
-        </div>
-    </div>
-    <br />
-    <div class="row" style="margin:1px">
-        <div class="col-md-4 col-sm-4 col-xs-4 list-group">
-            <a asp-action="ChangeStatus" asp-route-Id="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnSettingsAttachments"><i class="fa fa-wrench"></i></a>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4 list-group">
-            <a asp-action="AddAttachment" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnAddAttachments"><i class="fa fa-upload" aria-hidden="true"></i> </a>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4 list-group">
-            <a asp-action="ShowAttachment" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnShowAttachments"><i class="fa fa-low-vision"></i></a>
-        </div>
-    </div>
-</fieldset>
+                </div>
+            </div>
+            <br />
+            @if (item.EmployeeTransactionStatus == "Active")
+            {
+                <div class="row" style="margin:1px">
+                    <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+                        <a asp-action="ChangeStatus" asp-route-Id="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnSettingsAttachments"><i class="fa fa-wrench"></i></a>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+                        <a asp-action="AddAttachment" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnAddAttachments"><i class="fa fa-upload" aria-hidden="true"></i> </a>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4 list-group">
+                        <a asp-action="ShowAttachment" asp-route-TransactionId="@item.Id" class="btn btn-sm list-group-item list-group-item-action btnShowAttachments"><i class="fa fa-low-vision"></i></a>
+                    </div>
+                </div>
+            }
+        </fieldset>
+    }
 }

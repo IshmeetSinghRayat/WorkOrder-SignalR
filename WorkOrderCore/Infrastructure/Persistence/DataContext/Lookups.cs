@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
 namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 {
     public partial class Lookups
@@ -11,6 +15,6 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public string MasterName { get; set; }
         public bool? IsActive { get; set; }
 
-        public LookupMaster MasterNameNavigation { get; set; }
+        public virtual LookupMaster MasterNameNavigation { get; set; }
     }
 }

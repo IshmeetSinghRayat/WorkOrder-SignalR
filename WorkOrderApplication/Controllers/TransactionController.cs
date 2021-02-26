@@ -63,15 +63,21 @@ namespace WorkOrderApplication.Controllers
                 JobcardDD = jobCardList.Select(c => new SelectListItem { Text = c.JobDescription.ToString(), Value = c.Id.ToString() }).ToList(),
                 JobActivityDD = activityList.Select(c => new SelectListItem { Text = c.JobActivityDescriptioin.ToString(), Value = c.Id.ToString() }).ToList(),
                 StatusDD = StatusList.Select(v => new SelectListItem { Text = v.Name, Value = v.Alias.ToString() }).ToList(),
-                TransactionDetails = new WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTranasctions 
+                TransactionDetails = new WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTransactions 
                 { 
-                    JobCardsTranasctionsEndDate = DateTime.Now,
-                    JobCardsTranasctionsStartDate = DateTime.Now,
-                    JobCardsTranasctionsClosedAt = DateTime.Now,
-                    JobCardsTranasctionsStatus = "Open"
+                    JobCardsTransactionsEndDate = DateTime.Now,
+                    JobCardsTransactionsStartDate = DateTime.Now,
+                    JobCardsTransactionsClosedAt = DateTime.Now,
+                    JobCardsTransactionsStatus = "Open"
                 }
             };
             return View(model);
+        }
+        public async Task<IActionResult> GetActivitiesByJobCardId(short jobCardId) {
+            var activityList = await _activityService.GetActivitiesByJobCardId(jobCardId);
+            var JobActivityDD = activityList
+                                    .Select(c => new SelectListItem { Text = c.JobActivityDescriptioin.ToString(), Value = c.Id.ToString() }).ToList();
+            return Json(JobActivityDD);
         }
 
         // POST: AssignActivityController/Create
@@ -81,7 +87,7 @@ namespace WorkOrderApplication.Controllers
         {
             try
             {
-                var result = _transactionService.AddTransaction(model.TransactionDetails);
+                var result = await _transactionService.AddTransaction(model.TransactionDetails);
                 return RedirectToAction(nameof(Index));
             }
             catch

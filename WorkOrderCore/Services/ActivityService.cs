@@ -13,7 +13,7 @@ namespace WorkOrderCore.Services
     {
         Task<List<JobActivities>> GetAllActivities();
         Task<List<JobActivities>> GetJobActivities(int jobCardId);
-
+        Task<List<JobActivities>> GetActivitiesByJobCardId(short jobCardId);
         Task<JobActivities> AddActivity(JobActivities model);
         Task<bool> UpdateActivity(JobActivities model);
 
@@ -26,8 +26,17 @@ namespace WorkOrderCore.Services
 
         public async Task<List<JobActivities>> GetAllActivities()
         {
-            var activities = await _context.JobActivities.Include(v=>v.BuninessUnit).ToListAsync();
+            var activities = await _context.JobActivities.OrderByDescending(x => x.CreatedDate).Include(v=>v.BuninessUnit).ToListAsync();
             return activities.ToList();
+        }
+        public async Task<List<JobActivities>> GetActivitiesByJobCardId(short jobCardId)
+        {
+            var businessUnitOfJobCard = await _context.JobCards.Where(c=>c.Id == jobCardId).Select(c=>c.BuninessUnitId).FirstOrDefaultAsync();
+            if (businessUnitOfJobCard != null || businessUnitOfJobCard != 0)
+            {
+                return await _context.JobActivities.Where(v => v.BuninessUnitId == businessUnitOfJobCard).ToListAsync();
+            }
+            return new List<JobActivities>();
         }
         public async Task<List<JobActivities>> GetJobActivities(int jobCardId)
         {

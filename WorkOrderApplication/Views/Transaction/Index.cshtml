@@ -42,18 +42,18 @@
                     @Html.DisplayFor(modelItem => item.EmployeeFullName)
                 </td>
                 <td>
-                    @item.JobCardsTranasctionsStartDate.ToString("dddd, dd MMMM yyyy")
+                    @item.JobCardsTransactionsStartDate.ToString("dddd, dd MMMM yyyy")
                 </td>
                 <td>
-                    @item.JobCardsTranasctionsEndDate.ToString("dddd, dd MMMM yyyy")
+                    @item.JobCardsTransactionsEndDate.ToString("dddd, dd MMMM yyyy")
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.JobCardsTranasctionsStatus)
+                    @Html.DisplayFor(modelItem => item.JobCardsTransactionsStatus)
                 </td>
                 <td>
-                    @if (item.JobCardsTranasctionsClosedAt != null)
+                    @if (item.JobCardsTransactionsClosedAt != null)
                     {
-                        @item.JobCardsTranasctionsClosedAt.Value.ToString("dddd, dd MMMM yyyy")
+                        @item.JobCardsTransactionsClosedAt.Value.ToString("dddd, dd MMMM yyyy")
                     }
                 </td>
                 <td>

@@ -12,9 +12,9 @@ namespace WorkOrderCore.Services
 {
     public interface IAttachmentsService
     {
-        Task<List<JobCardsTranasctionsLobs>> GetAttachmentsByTransactionId(short TransactionId);
-        Task<JobCardsTranasctionsLobs> GetAttachmentById(short Id);
-        Task<bool> PostAttachments(List<JobCardsTranasctionsLobs> model);
+        Task<List<JobCardsTransactionsLobs>> GetAttachmentsByTransactionId(short TransactionId);
+        Task<JobCardsTransactionsLobs> GetAttachmentById(short Id);
+        Task<bool> PostAttachments(List<JobCardsTransactionsLobs> model);
     }
     public class AttachmentsService : BaseService, IAttachmentsService
     {
@@ -23,21 +23,21 @@ namespace WorkOrderCore.Services
         {
         }
 
-        public async Task<JobCardsTranasctionsLobs> GetAttachmentById(short Id)
+        public async Task<JobCardsTransactionsLobs> GetAttachmentById(short Id)
         {
-            return await _context.JobCardsTranasctionsLobs.Where(c => c.Id == Id).FirstOrDefaultAsync();
+            return await _context.JobCardsTransactionsLobs.Where(c => c.Id == Id).FirstOrDefaultAsync();
         }
 
-        public async Task<List<JobCardsTranasctionsLobs>> GetAttachmentsByTransactionId(short TransactionId)
+        public async Task<List<JobCardsTransactionsLobs>> GetAttachmentsByTransactionId(short TransactionId)
         {
-            return await _context.JobCardsTranasctionsLobs.Where(c => c.JobCardsTranasctionsId == TransactionId).ToListAsync();
+            return await _context.JobCardsTransactionsLobs.Where(c => c.JobCardsTransactionsId == TransactionId).ToListAsync();
         }
 
-        public async Task<bool> PostAttachments(List<JobCardsTranasctionsLobs> model)
+        public async Task<bool> PostAttachments(List<JobCardsTransactionsLobs> model)
         {
             if (model.Count > 0)
             {
-                _context.JobCardsTranasctionsLobs.AddRange(model);
+                _context.JobCardsTransactionsLobs.AddRange(model);
                 await _context.SaveChangesAsync();
 
                 if (model[0].Id != 0)

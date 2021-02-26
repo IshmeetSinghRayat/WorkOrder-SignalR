@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
+
 namespace WorkOrderCore.Infrastructure.Persistence.DataContext
 {
     public partial class AspNetUserLogins
@@ -10,6 +14,6 @@ namespace WorkOrderCore.Infrastructure.Persistence.DataContext
         public string ProviderDisplayName { get; set; }
         public string UserId { get; set; }
 
-        public AspNetUsers User { get; set; }
+        public virtual AspNetUsers User { get; set; }
     }
 }

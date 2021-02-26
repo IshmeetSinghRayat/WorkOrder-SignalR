@@ -15,11 +15,11 @@ namespace WorkOrderCore.Services
     {
         Task<List<JobcardTransactionsViewModel>> GetAllTransactions();
         Task<List<JobcardTransactionsViewModel>> GetEmployeeTransactions();
-        Task<JobCardsTranasctions> GetTransactionByTransactionId(short Id);
-        Task<JobCardsTranasctions> AddTransaction(JobCardsTranasctions model);
+        Task<JobCardsTransactions> GetTransactionByTransactionId(short Id);
+        Task<JobCardsTransactions> AddTransaction(JobCardsTransactions model);
         Task<bool> UpdateTransaction(RiderChangeStatusViewModel model);
         Task<bool> CheckDuplicatePrioritySequence(int jobCardId, short prioritySequence);
-        Task<JobCardsTranasctions> EditTransaction(JobCardsTranasctions model);
+        Task<JobCardsTransactions> EditTransaction(JobCardsTransactions model);
         Task<List<AssignTransaction>> AssignedTransactionsByEmployeeId();
 
     }
@@ -32,29 +32,31 @@ namespace WorkOrderCore.Services
 
         public async Task<List<JobcardTransactionsViewModel>> GetAllTransactions()
         {
-            var transactions = await (from a in _context.JobCardsTranasctions
+            var transactions = await (from a in _context.JobCardsTransactions
                                       join d in _context.JobActivities on a.JobActivityId equals d.Id
+                                      join e in _context.JobCards on a.JobCardId equals e.Id
                                       join b in _context.Employee on a.EmployeeId equals b.Id
                                       join c in _context.AspNetUsers on b.UserId equals c.Id
                                       select new JobcardTransactionsViewModel
                                       {
                                           Id = a.Id,
                                           JobCardId = a.JobCardId,
+                                          JobNumber = e.JobNumber,
                                           JobActivityId = a.JobActivityId,
                                           EmployeeId = a.EmployeeId,
                                           ActivityName = d.JobActivityDescriptioin,
                                           EmployeeFullName = c.Firstname + " " + c.LastName,
-                                          JobCardsTranasctionsStartDate = a.JobCardsTranasctionsStartDate,
-                                          JobCardsTranasctionsEndDate = a.JobCardsTranasctionsEndDate,
-                                          JobCardsTranasctionsStatus = a.JobCardsTranasctionsStatus,
-                                          JobCardsTranasctionsRemarks = a.JobCardsTranasctionsRemarks,
-                                          JobCardsTranasctionsClosedAt = a.JobCardsTranasctionsClosedAt,
+                                          JobCardsTransactionsStartDate = a.JobCardsTransactionsStartDate,
+                                          JobCardsTransactionsEndDate = a.JobCardsTransactionsEndDate,
+                                          JobCardsTransactionsStatus = a.JobCardsTransactionsStatus,
+                                          JobCardsTransactionsRemarks = a.JobCardsTransactionsRemarks,
+                                          JobCardsTransactionsClosedAt = a.JobCardsTransactionsClosedAt,
                                           PrioritySequence = a.PrioritySequence,
                                           CreatedBy = a.CreatedBy,
                                           UpdatedBy = a.UpdatedBy,
                                           CreatedDate = a.CreatedDate,
                                           UpdatedDate = a.UpdatedDate,
-                                      }).ToListAsync();
+                                      }).OrderByDescending(x => x.CreatedDate).ToListAsync();
 
 
             return transactions;
@@ -63,15 +65,35 @@ namespace WorkOrderCore.Services
         {
             var transactions = await GetAllTransactions();
             var GetAssignedTransactions = await _context.AssignTransaction.Where(s => s.EmployeeId == Convert.ToInt64(EmployeeId)).Select(t => t.TransactionId).ToListAsync();
-            return transactions.Where(v => GetAssignedTransactions.Contains(v.Id)).ToList();
+            var employeeTransactions = transactions.Where(v => v.EmployeeId == Convert.ToInt16(EmployeeId)).ToList();
+            for (int i = 0; i < employeeTransactions.Count; i++)
+            {
+                if (employeeTransactions[i].JobCardsTransactionsStatus == "Open" || employeeTransactions[i].JobCardsTransactionsStatus == "Hold")
+                {
+                    if (GetAssignedTransactions.Contains(employeeTransactions[i].Id))
+                    {
+                        employeeTransactions[i].EmployeeTransactionStatus = "Active";
+                    }
+                    else
+                    {
+                        employeeTransactions[i].EmployeeTransactionStatus = "NotActive";
+                    }
+                }
+                else
+                {
+                    employeeTransactions[i].EmployeeTransactionStatus = "Finished";
+                }
+
+            }
+            return employeeTransactions.OrderBy(c=>c.PrioritySequence).ToList();
         }
-        public async Task<JobCardsTranasctions> GetTransactionByTransactionId(short Id)
+        public async Task<JobCardsTransactions> GetTransactionByTransactionId(short Id)
         {
-            var transactionDetails = await _context.JobCardsTranasctions.Where(d => d.Id == Id).FirstOrDefaultAsync();
+            var transactionDetails = await _context.JobCardsTransactions.Where(d => d.Id == Id).FirstOrDefaultAsync();
             return transactionDetails;
         }
 
-        public async Task<JobCardsTranasctions> AddTransaction(JobCardsTranasctions model)
+        public async Task<JobCardsTransactions> AddTransaction(JobCardsTransactions model)
         {
             try
             {
@@ -89,7 +111,7 @@ namespace WorkOrderCore.Services
                 model.UpdatedDate = DateTime.Now;
                 model.CreatedBy = LoginUserid;
                 model.PrioritySequence = lastPriorityNumber;
-                _context.JobCardsTranasctions.Add(model);
+                _context.JobCardsTransactions.Add(model);
                 _context.SaveChanges();
 
                 if (model.PrioritySequence == 1)
@@ -111,19 +133,19 @@ namespace WorkOrderCore.Services
 
         }
 
-        private async Task<JobCardsTranasctions> GetTransactionPriority(int jobCardId)
+        private async Task<JobCardsTransactions> GetTransactionPriority(int jobCardId)
         {
-             return await _context.JobCardsTranasctions.Where(c => c.JobCardId == jobCardId).OrderByDescending(c => c.CreatedDate).FirstOrDefaultAsync();
+             return await _context.JobCardsTransactions.Where(c => c.JobCardId == jobCardId).OrderByDescending(c => c.CreatedDate).FirstOrDefaultAsync();
         }
 
-        public async Task<JobCardsTranasctions> EditTransaction(JobCardsTranasctions model)
+        public async Task<JobCardsTransactions> EditTransaction(JobCardsTransactions model)
         {
             try
             {
                 model.UpdatedBy = LoginUserid;
                 model.UpdatedDate = DateTime.Now;
                 model.CreatedBy = LoginUserid;
-                _context.JobCardsTranasctions.Update(model);
+                _context.JobCardsTransactions.Update(model);
                 _context.SaveChanges();
                 return model;
             }
@@ -136,14 +158,14 @@ namespace WorkOrderCore.Services
 
         public async Task<bool> UpdateTransaction(RiderChangeStatusViewModel model)
         {
-            JobCardsTranasctions result = await _context.JobCardsTranasctions.Where(v => v.Id == model.Id).FirstOrDefaultAsync();
-            result.JobCardsTranasctionsStatus = model.JobCardsTranasctionsStatus;
-            result.JobCardsTranasctionsClosedAt = DateTime.Now;
+            JobCardsTransactions result = await _context.JobCardsTransactions.Where(v => v.Id == model.Id).FirstOrDefaultAsync();
+            result.JobCardsTransactionsStatus = model.JobCardsTransactionsStatus;
+            result.JobCardsTransactionsClosedAt = DateTime.Now;
             result.UpdatedBy = LoginUserid;
             result.UpdatedDate = DateTime.Now;
-            _context.JobCardsTranasctions.Update(result);
+            _context.JobCardsTransactions.Update(result);
             await _context.SaveChangesAsync();
-            if (result.JobCardsTranasctionsStatus == "Close")
+            if (result.JobCardsTransactionsStatus == "Close")
             {
                 AssignTransaction removeDetails = new AssignTransaction
                 {
@@ -153,12 +175,12 @@ namespace WorkOrderCore.Services
                 _context.AssignTransaction.Remove(removeDetails);
                 await _context.SaveChangesAsync();
 
-                var getNextEmployee = await _context.JobCardsTranasctions.Where(c => c.JobCardId == result.JobCardId && c.PrioritySequence == result.PrioritySequence + 1).FirstOrDefaultAsync();
+                var getNextEmployee = await _context.JobCardsTransactions.AsNoTracking().Where(c => c.JobCardId == result.JobCardId && c.PrioritySequence == result.PrioritySequence + 1).FirstOrDefaultAsync();
                 if (getNextEmployee != null)
                 {
                     AssignTransaction details = new AssignTransaction
                     {
-                        TransactionId = result.Id,
+                        TransactionId = getNextEmployee.Id,
                         EmployeeId = getNextEmployee.EmployeeId
                     };
                     _context.AssignTransaction.Add(details);
@@ -175,7 +197,7 @@ namespace WorkOrderCore.Services
 
         public async Task<bool> CheckDuplicatePrioritySequence(int jobCardId, short prioritySequence)
         {
-            return await _context.JobCardsTranasctions.Where(c => c.JobCardId == jobCardId && c.PrioritySequence == prioritySequence).AnyAsync();
+            return await _context.JobCardsTransactions.AsNoTracking().Where(c => c.JobCardId == jobCardId && c.PrioritySequence == prioritySequence).AnyAsync();
         }
     }
 }

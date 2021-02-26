@@ -8,6 +8,6 @@ namespace WorkOrderApplication.Models
     public class RiderChangeStatusViewModel
     {
         public short Id { get; set; }
-        public string JobCardsTranasctionsStatus { get; set; }
+        public string JobCardsTransactionsStatus { get; set; }
     }
 }
