@@ -24,7 +24,7 @@ namespace WorkOrderApplication.Controllers
         private readonly ILookupService _lookupServcie;
 
         public TransactionController(
-            ITransactionService transactionService, 
+            ITransactionService transactionService,
             IEmployeeService employeeService,
             IActivityService activityService,
             IJobCardService jobCardService,
@@ -71,8 +71,8 @@ namespace WorkOrderApplication.Controllers
                 JobcardDD = jobCardList.Select(c => new SelectListItem { Text = c.JobDescription.ToString(), Value = c.Id.ToString() }).ToList(),
                 JobActivityDD = activityList.Select(c => new SelectListItem { Text = c.JobActivityDescriptioin.ToString(), Value = c.Id.ToString() }).ToList(),
                 StatusDD = StatusList.Select(v => new SelectListItem { Text = v.Name, Value = v.Alias.ToString() }).ToList(),
-                TransactionDetails = new WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTransactions 
-                { 
+                TransactionDetails = new WorkOrderCore.Infrastructure.Persistence.DataContext.JobCardsTransactions
+                {
                     JobCardsTransactionsEndDate = DateTime.Now,
                     JobCardsTransactionsStartDate = DateTime.Now,
                     JobCardsTransactionsClosedAt = DateTime.Now,
@@ -81,7 +81,8 @@ namespace WorkOrderApplication.Controllers
             };
             return View(model);
         }
-        public async Task<IActionResult> GetActivitiesByJobCardId(short jobCardId) {
+        public async Task<IActionResult> GetActivitiesByJobCardId(short jobCardId)
+        {
             var activityList = await _activityService.GetActivitiesByJobCardId(jobCardId);
             var JobActivityDD = activityList
                                     .Select(c => new SelectListItem { Text = c.JobActivityDescriptioin.ToString(), Value = c.Id.ToString() }).ToList();
@@ -93,15 +94,31 @@ namespace WorkOrderApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(TransactionViewModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var result = await _transactionService.AddTransaction(model.TransactionDetails);
-                return RedirectToAction(nameof(Index));
+                try
+                {
+
+                    if (model.TransactionDetails.JobCardsTransactionsEndDate.Date < DateTime.Now.Date)
+                    {
+                        ModelState.AddModelError("JobCardsTransactionsEndDate", "Dates should be greater then todays date");
+                        return View(model);
+                    }
+                    if (model.TransactionDetails.JobCardsTransactionsStartDate.Date < DateTime.Now.Date)
+                    {
+                        ModelState.AddModelError("JobCardsTransactionsStartDate", "Dates should be greater then todays date");
+                        return View(model);
+                    }
+                    var result = await _transactionService.AddTransaction(model.TransactionDetails);
+                    return RedirectToAction(nameof(Index));
+
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: AssignActivityController/Edit/5

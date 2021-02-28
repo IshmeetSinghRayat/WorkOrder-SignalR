@@ -15,6 +15,10 @@
     <form asp-action="Create">
         <input type="hidden" asp-for="TransactionDetails.CreatedDate" />
         <input type="hidden" asp-for="TransactionDetails.CreatedBy" />
+        <input type="hidden" asp-for="JobcardDD" value="@Model.JobcardDD"/>
+        <input type="hidden" asp-for="EmployeesDD" value="@Model.EmployeesDD"/>
+        <input type="hidden" asp-for="StatusDD" value="@Model.StatusDD"/>
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="col-lg-4">
             <div class="form-group">
