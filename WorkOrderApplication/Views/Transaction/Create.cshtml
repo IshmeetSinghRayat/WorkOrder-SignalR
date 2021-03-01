@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create Transaction</h2>
+<h2>Transaction</h2>
 
 <div class="row">
     <div class="col-lg-12">
@@ -13,11 +13,14 @@
         </div>
     </div>
     <form asp-action="Create">
+        <input type="hidden" asp-for="TransactionDetails.Id" />
+
         <input type="hidden" asp-for="TransactionDetails.CreatedDate" />
         <input type="hidden" asp-for="TransactionDetails.CreatedBy" />
-        <input type="hidden" asp-for="JobcardDD" value="@Model.JobcardDD"/>
-        <input type="hidden" asp-for="EmployeesDD" value="@Model.EmployeesDD"/>
-        <input type="hidden" asp-for="StatusDD" value="@Model.StatusDD"/>
+        <input type="hidden" asp-for="JobcardDD" value="@Model.JobcardDD" />
+        <input type="hidden" asp-for="EmployeesDD" value="@Model.EmployeesDD" />
+        <input type="hidden" asp-for="StatusDD" value="@Model.StatusDD" />
+        <input type="hidden" asp-for="TransactionDetails.PrioritySequence" />
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="col-lg-4">
@@ -79,7 +82,7 @@
         </div>
         <div class="col-lg-12">
             <div class="form-group" style="float:right">
-                <input type="submit" value="Create" class="btn btn-success" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </div>
     </form>
@@ -90,6 +93,9 @@
 
 <script type="text/javascript">
     $(function () {
+        if ("@ViewBag.viewType" == "edit") {
+            fn_onChangeJobCard($("#TransactionDetails_JobCardId").val());
+        }
         $("#TransactionDetails_JobCardId").on("change", function () {
             fn_onChangeJobCard(this.value);
         });

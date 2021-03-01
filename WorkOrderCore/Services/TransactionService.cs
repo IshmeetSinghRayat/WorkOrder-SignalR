@@ -17,6 +17,7 @@ namespace WorkOrderCore.Services
         Task<List<JobcardTransactionsViewModel>> GetEmployeeTransactions();
         Task<JobCardsTransactions> GetTransactionByTransactionId(short Id);
         Task<JobCardsTransactions> AddTransaction(JobCardsTransactions model);
+        Task<JobCardsTransactions> GetTransactionById(short id);
         Task<bool> UpdateTransaction(RiderChangeStatusViewModel model);
         Task<bool> CheckDuplicatePrioritySequence(int jobCardId, short prioritySequence);
         Task<JobCardsTransactions> EditTransaction(JobCardsTransactions model);
@@ -147,9 +148,16 @@ namespace WorkOrderCore.Services
             {
                 model.UpdatedBy = LoginUserid;
                 model.UpdatedDate = DateTime.Now;
-                model.CreatedBy = LoginUserid;
+                model.PrioritySequence = model.PrioritySequence;
                 _context.JobCardsTransactions.Update(model);
                 _context.SaveChanges();
+                AssignTransaction assignedTransaction = await _context.AssignTransaction.Where(c => c.TransactionId == model.Id).FirstOrDefaultAsync();
+                if (assignedTransaction != null)
+                {
+                    assignedTransaction.EmployeeId = model.EmployeeId;
+                    _context.AssignTransaction.Update(assignedTransaction);
+                    await _context.SaveChangesAsync();
+                }
                 return model;
             }
             catch (Exception ex)
@@ -201,6 +209,11 @@ namespace WorkOrderCore.Services
         public async Task<bool> CheckDuplicatePrioritySequence(int jobCardId, short prioritySequence)
         {
             return await _context.JobCardsTransactions.AsNoTracking().Where(c => c.JobCardId == jobCardId && c.PrioritySequence == prioritySequence).AnyAsync();
+        }
+
+        public async Task<JobCardsTransactions> GetTransactionById(short id)
+        {
+             return await _context.JobCardsTransactions.Where(c=>c.Id == id).FirstOrDefaultAsync();
         }
     }
 }

@@ -48,7 +48,6 @@ namespace WorkOrderApplication.Controllers
             return View(await _transactionService.GetAllTransactions());
         }
 
-        // GET: AssignActivityController/Details/5
         public ActionResult Details(int id)
         {
             if (HttpContext.Session.GetString("Role") != "Admin")
@@ -58,8 +57,7 @@ namespace WorkOrderApplication.Controllers
             return View();
         }
 
-        // GET: AssignActivityController/Create
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(short id = 0, string viewType = "create")
         {
             var ridersList = await _employeeService.GetAllRiders(1);
             var jobCardList = await _jobCardService.GetAllJobCards();
@@ -79,6 +77,11 @@ namespace WorkOrderApplication.Controllers
                     JobCardsTransactionsStatus = "Open"
                 }
             };
+            if (viewType == "edit")
+            {
+                model.TransactionDetails = await _transactionService.GetTransactionById(id);
+            }
+            ViewBag.viewType = viewType;
             return View(model);
         }
         public async Task<IActionResult> GetActivitiesByJobCardId(short jobCardId)
@@ -98,18 +101,24 @@ namespace WorkOrderApplication.Controllers
             {
                 try
                 {
-
-                    if (model.TransactionDetails.JobCardsTransactionsEndDate.Date < DateTime.Now.Date)
+                    if (model.TransactionDetails.Id == 0)
                     {
-                        ModelState.AddModelError("JobCardsTransactionsEndDate", "Dates should be greater then todays date");
-                        return View(model);
+                        if (model.TransactionDetails.JobCardsTransactionsEndDate.Date > DateTime.Now.Date)
+                        {
+                            ModelState.AddModelError("JobCardsTransactionsEndDate", "Dates should be greater then todays date");
+                            return View(model);
+                        }
+                        if (model.TransactionDetails.JobCardsTransactionsStartDate.Date < DateTime.Now.Date)
+                        {
+                            ModelState.AddModelError("JobCardsTransactionsStartDate", "Dates should be greater then todays date");
+                            return View(model);
+                        }
+                        var result = await _transactionService.AddTransaction(model.TransactionDetails);
                     }
-                    if (model.TransactionDetails.JobCardsTransactionsStartDate.Date < DateTime.Now.Date)
+                    else
                     {
-                        ModelState.AddModelError("JobCardsTransactionsStartDate", "Dates should be greater then todays date");
-                        return View(model);
+                        var result = await _transactionService.EditTransaction(model.TransactionDetails);
                     }
-                    var result = await _transactionService.AddTransaction(model.TransactionDetails);
                     return RedirectToAction(nameof(Index));
 
                 }

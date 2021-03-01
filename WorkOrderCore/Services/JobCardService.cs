@@ -13,8 +13,10 @@ namespace WorkOrderCore.Services
     public interface IJobCardService
     {
         Task<List<JobCards>> GetAllJobCards();
+        Task<JobCards> GetJobCardsById(int id);
         Task<bool> AddJobCard(JobCards model);
         Task<bool> UpdateJobCard(JobCards model);
+        Task<bool> CheckDuplicateJobNumber(string number);
 
     }
     public class JobCardService :BaseService, IJobCardService
@@ -50,10 +52,22 @@ namespace WorkOrderCore.Services
 
         public async Task<bool> UpdateJobCard(JobCards model)
         {
+            model.UpdatedDate = DateTime.Now;
             model.UpdatedBy = LoginUserid;
             _context.JobCards.Update(model);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<JobCards> GetJobCardsById(int id)
+        {
+            return await _context.JobCards.Where(c=>c.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> CheckDuplicateJobNumber(string number)
+        {
+            string jobNumber = number + "-" + DateTime.Now.ToString("yy");
+            return await _context.JobCards.Where(v => v.JobNumber == jobNumber).AnyAsync();
         }
     }
 }

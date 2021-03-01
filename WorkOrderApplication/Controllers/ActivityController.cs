@@ -48,7 +48,7 @@ namespace WorkOrderApplication.Controllers
         }
 
         // GET: ActivityController/Create
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(int id = 0, string viewType = "create")
         {
             var businessUnitsList = await _lookupService.GetBusinessUnits();
             var StatusList = await _lookupService.GetLookups(DataEnums.MasterLookupAlias.ActivityStatus.ToString());
@@ -63,6 +63,12 @@ namespace WorkOrderApplication.Controllers
                     JobActivitiesStatus = "Open"
                 }
             };
+            if (viewType == "edit")
+            {
+                model.JobActivitiesDetails = await _activityService.GetActivityById(id);
+            }
+            ViewBag.viewType = viewType;
+
             return View(model);
         }
 
@@ -73,7 +79,14 @@ namespace WorkOrderApplication.Controllers
         {
             try
             {
-                var activityDetails = await _activityService.AddActivity(model.JobActivitiesDetails);
+                if (model.JobActivitiesDetails.Id == 0)
+                {
+                    var activityDetails = await _activityService.AddActivity(model.JobActivitiesDetails);
+                }
+                else
+                {
+                    var activityDetails = await _activityService.UpdateActivity(model.JobActivitiesDetails);
+                }
                 await _hubContext.Clients.All.SendAsync("ReceiveMessage", "", "");
                 return RedirectToAction(nameof(Index));
             }

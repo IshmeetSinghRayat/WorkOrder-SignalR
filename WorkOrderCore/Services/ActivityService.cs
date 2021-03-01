@@ -15,6 +15,7 @@ namespace WorkOrderCore.Services
         Task<List<JobActivities>> GetJobActivities(int jobCardId);
         Task<List<JobActivities>> GetActivitiesByJobCardId(short jobCardId);
         Task<JobActivities> AddActivity(JobActivities model);
+        Task<JobActivities> GetActivityById(int id);
         Task<bool> UpdateActivity(JobActivities model);
 
     }
@@ -64,10 +65,16 @@ namespace WorkOrderCore.Services
 
         public async Task<bool> UpdateActivity(JobActivities model)
         {
-            //model.UpdatedBy = "19ef8691-ba36-45e6-8fc9-4ac0e84a7249";
+            model.UpdatedDate = DateTime.Now;
+            model.UpdatedBy = LoginUserid;
             _context.JobActivities.Update(model);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<JobActivities> GetActivityById(int id)
+        {
+            return await _context.JobActivities.Where(d => d.Id == id).FirstOrDefaultAsync();
         }
     }
 }

@@ -16,9 +16,11 @@
 </style>
 
 
-<h2>Create Job Card</h2>
+<h2>Job Card</h2>
 
-
+<div class="alert alert-danger" role="alert" id="errorMessageDuplicateNumber" style="display:none">
+    Job Card is already created with this number, please try with unique one.
+</div>
 
 
 <div class="row">
@@ -28,19 +30,27 @@
         <a class="btn btn-warning" asp-action="Index" style="float:right">Back to List</a>
     </div>
     <form asp-action="Create">
+        <input type="hidden" asp-for="JobCardDetails.Id" />
         <input type="hidden" asp-for="JobCardDetails.CreationDate" />
         <input type="hidden" asp-for="JobCardDetails.CreatedBy" />
-
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="col-lg-2">
             <div class="form-group">
                 <label class="control-label">Job Number</label>
 
                 <div style="display:flex;">
-                    <input type="text" asp-for="JobCardDetails.JobNumber" class="form-control" onkeypress="return isNumberKey(this, event)">
-                    <div class="customPostFixDiv">
-                        @ViewBag.CurrentYear
-                    </div>
+                    @if ("create" == ViewBag.viewType)
+                    {
+                        <input type="text" asp-for="JobCardDetails.JobNumber" class="form-control" onkeypress="return isNumberKey(this, event)" onchange="fn_checkIfNumberExist(this.value)">
+                        <div class="customPostFixDiv">
+                            @ViewBag.CurrentYear
+                        </div>
+                    }
+                    else
+                    {
+                        <input type="hidden" asp-for="JobCardDetails.JobNumber" />
+                        <label class="badge badge-primary">@Model.JobCardDetails.JobNumber</label>
+                    }
                 </div>
                 <span asp-validation-for="JobCardDetails.JobNumber" class="text-danger"></span>
             </div>
@@ -88,7 +98,7 @@
         </div>
         <div class="col-12">
             <div class="form-group" style="float:right">
-                <input type="submit" value="Create" class="btn btn-success" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </div>
     </form>
@@ -98,4 +108,18 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+    function fn_checkIfNumberExist(value) {
+        $.get("@Url.Action("CheckDuplicateJobNumber", "JobCards")?number=" + value, function (data) {
+            if (data.success == true) {
+                $("#errorMessageDuplicateNumber").show();
+                $("#JobCardDetails_JobNumber").val("");
+            } else {
+                $("#errorMessageDuplicateNumber").hide();
+            }
+        }).fail(function () {
+            alert("fail");
+        });
+    }
+    </script>
 }

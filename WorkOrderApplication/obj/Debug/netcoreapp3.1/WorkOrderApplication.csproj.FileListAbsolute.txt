@@ -72,10 +72,8 @@ C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Activity\Create.cshtml.g.cs
-C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Activity\Edit.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Activity\Index.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\JobCards\Create.cshtml.g.cs
-C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\JobCards\Edit.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\JobCards\Index.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Rider\AddAttachment.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Rider\ChangeStatus.cshtml.g.cs
@@ -89,7 +87,6 @@ C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_RegistrationLayout.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Transaction\Create.cshtml.g.cs
-C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Transaction\Edit.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\Transaction\Index.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs

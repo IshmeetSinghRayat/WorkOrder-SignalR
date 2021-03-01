@@ -23,7 +23,6 @@ namespace WorkOrderApplication.Controllers
             _jobCardService = jobCardService;
             _lookupService = lookupService;
         }
-        // GET: JobCardsController
         public async Task<ActionResult> Index()
         {
             if (HttpContext.Session.GetString("Role") != "Admin")
@@ -34,18 +33,13 @@ namespace WorkOrderApplication.Controllers
             return View(await _jobCardService.GetAllJobCards());
         }
 
-        // GET: JobCardsController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> CheckDuplicateJobNumber(string number)
         {
-            if (HttpContext.Session.GetString("Role") != "Admin")
-            {
-                return RedirectToAction("UnAuthorized", "Account");
-            }
-            return View();
+            bool success = await _jobCardService.CheckDuplicateJobNumber(number);
+            return Json(new { success });
         }
 
-        // GET: JobCardsController/Create
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(int id = 0, string viewType = "create")
         {
             var businessUnitsList = await _lookupService.GetBusinessUnits();
             var StatusList = await _lookupService.GetLookups(DataEnums.MasterLookupAlias.JobStatus.ToString());
@@ -60,20 +54,37 @@ namespace WorkOrderApplication.Controllers
                     JobStatus = "Open"
                 }
             };
+            if (viewType == "edit")
+            {
+                model.JobCardDetails = await _jobCardService.GetJobCardsById(id);
+            }
             ViewBag.CurrentYear = DateTime.Now.Year;
+            ViewBag.viewType = viewType;
             return View(model);
         }
 
-        // POST: JobCardsController/Create
         [HttpPost]
    
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CreateJobCardViewModel details)
         {
+            bool result = false;
             try
             {
-                var dd = await _jobCardService.AddJobCard(details.JobCardDetails);
-                return RedirectToAction(nameof(Index));
+                if (details.JobCardDetails.Id == 0)
+                {
+                    result = await _jobCardService.AddJobCard(details.JobCardDetails);
+                }
+                else
+                {
+                    result = await _jobCardService.UpdateJobCard(details.JobCardDetails);
+
+                }
+                if (result)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                return View();
             }
             catch
             {
@@ -81,13 +92,11 @@ namespace WorkOrderApplication.Controllers
             }
         }
 
-        // GET: JobCardsController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: JobCardsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -102,7 +111,6 @@ namespace WorkOrderApplication.Controllers
             }
         }
 
-        // GET: JobCardsController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
