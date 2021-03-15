@@ -1,0 +1,12 @@
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\bin\Release\netcoreapp3.1\WorkOrderCore.deps.json
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\bin\Release\netcoreapp3.1\WorkOrderCore.runtimeconfig.json
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\bin\Release\netcoreapp3.1\WorkOrderCore.runtimeconfig.dev.json
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\bin\Release\netcoreapp3.1\WorkOrderCore.dll
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\bin\Release\netcoreapp3.1\WorkOrderCore.pdb
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\obj\Release\netcoreapp3.1\WorkOrderCore.csprojAssemblyReference.cache
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\obj\Release\netcoreapp3.1\WorkOrderCore.AssemblyInfoInputs.cache
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\obj\Release\netcoreapp3.1\WorkOrderCore.AssemblyInfo.cs
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\obj\Release\netcoreapp3.1\WorkOrderCore.csproj.CoreCompileInputs.cache
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\obj\Release\netcoreapp3.1\WorkOrderCore.dll
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\obj\Release\netcoreapp3.1\WorkOrderCore.pdb
+C:\Users\dell\Documents\WorkOrder2.2\WorkOrderCore\obj\Release\netcoreapp3.1\WorkOrderCore.genruntimeconfig.cache
