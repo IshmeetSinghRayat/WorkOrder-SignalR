@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "HxMqajuxGUpIbldEwx/6dahIBl6K+qqj7BFBnwRetdMCVnJDFbZp6UTHzaXMdLH76aYG8IAiM4J/zKqmOS6fzQ==",
+  "dgSpecHash": "gRFnOWFE+EWckCWEzx0/PaZuj4z0NuTRscAilI8Q9YewY0ZD8Gwl9KpkcytSWeNlAhIyDwKnPo931vY7VSZZ+w==",
   "success": true,
   "projectFilePath": "C:\\Users\\dell\\Documents\\WorkOrder2.2\\WorkOrderApplication\\WorkOrderApplication.csproj",
   "expectedPackageFiles": [
@@ -281,8 +281,11 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "C:\\Users\\dell\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
-    "C:\\Users\\dell\\.nuget\\packages\\microsoft.netcore.app.host.win-x86\\3.1.12\\microsoft.netcore.app.host.win-x86.3.1.12.nupkg.sha512"
+    "C:\\Users\\dell\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\3.1.12\\microsoft.netcore.app.runtime.win-x86.3.1.12.nupkg.sha512",
+    "C:\\Users\\dell\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\3.1.12\\microsoft.windowsdesktop.app.runtime.win-x86.3.1.12.nupkg.sha512",
+    "C:\\Users\\dell\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\3.1.12\\microsoft.aspnetcore.app.runtime.win-x86.3.1.12.nupkg.sha512",
+    "C:\\Users\\dell\\.nuget\\packages\\microsoft.netcore.app.host.win-x86\\3.1.12\\microsoft.netcore.app.host.win-x86.3.1.12.nupkg.sha512",
+    "C:\\Users\\dell\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512"
   ],
   "logs": [
     {

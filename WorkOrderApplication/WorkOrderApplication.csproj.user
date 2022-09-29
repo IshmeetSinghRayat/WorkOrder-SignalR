@@ -13,6 +13,7 @@
     <_SelectedScaffolderCategoryPath>root/Identity</_SelectedScaffolderCategoryPath>
     <WebStackScaffolding_LayoutPageFile />
     <WebStackScaffolding_DbContextTypeFullName>WorkOrderCore.Infrastructure.Persistence.DataContext.WorkOrderDBContext</WebStackScaffolding_DbContextTypeFullName>
-    <NameOfLastUsedPublishProfile>FTPProfile</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\dell\Documents\WorkOrder2.2\WorkOrderApplication\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>
